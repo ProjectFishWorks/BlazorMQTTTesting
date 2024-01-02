@@ -6,7 +6,7 @@ using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using MQTTnet.Server;
 using System;
-
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +33,7 @@ namespace MQTTnet.ClientLib
         public event EventHandler<MqttApplicationMessageReceivedEventArgs> MessageReceived;
 
         public int MeassagesReceived { get; set; } = 0;
-        public string LastMessageReceived { get; set; } = "No messages received yet.";
+        public Dictionary<string, string> AllMessages { get; } = new Dictionary<string, string>();
 
         public bool IsConnected()
         {
@@ -105,7 +105,7 @@ namespace MQTTnet.ClientLib
                 _mqttClient.ApplicationMessageReceivedHandler = new MqttMessageReceivedHandler(messageReceivedArgs =>
                 {
                     MeassagesReceived++;
-                    LastMessageReceived = Encoding.UTF8.GetString(messageReceivedArgs.ApplicationMessage.Payload);      
+                    AllMessages[messageReceivedArgs.ApplicationMessage.Topic] = Encoding.UTF8.GetString(messageReceivedArgs.ApplicationMessage.Payload);
                     MessageReceived?.Invoke(this, messageReceivedArgs);
                 });
             }

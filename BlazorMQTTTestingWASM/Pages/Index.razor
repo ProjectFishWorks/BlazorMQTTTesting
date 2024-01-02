@@ -20,8 +20,6 @@ Welcome to your new app.
     Welcome to MQTTnet Blazor Web App playground.
     <br /> MQTT client connection status : @MqttService.IsConnected()
     <br /> Messages Receviced : @MqttService.MeassagesReceived
-    <br /> Last Message : @MqttService.LastMessageReceived
-    
 </div>
 
 <div id="ConnectionContainer" class="container">
@@ -35,6 +33,21 @@ Welcome to your new app.
     <input type="text" @bind="topic" class="form-control" aria-label="Default" placeholder="Topic" />
     <button class="btn btn-success" @onclick="SubscribeBtn_Clicked">Subscribe</button>
     <button class="btn btn-danger" @onclick="UnsubscribeBtn_Clicked">Unsubscribe</button>
+</div>
+
+<div id="MessageContainer" class="container">
+    <h3>Message board</h3>
+    <table class="table">
+        <tbody>
+            @foreach (var kpv in MqttService.AllMessages)
+            {
+                <tr>
+                    <td>@kpv.Key</td>
+                    <td>@kpv.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @code{
