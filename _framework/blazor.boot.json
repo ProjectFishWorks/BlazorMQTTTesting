@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "BlazorMQTTTestingWASM.dll": "sha256-5MrdqFTwVcPenQtJk2vzPtolp6O8+YEogd\/Ui4cHvuI=",
+      "BlazorMQTTTestingWASM.dll": "sha256-qKLEZYvLN6HzHsKiuO2TPA8SthRz6shNm52P0gibXhs=",
       "Microsoft.AspNetCore.Components.dll": "sha256-ECVCJ3kq3WDQ1YAUJx7obZb3+H632iy7FoosDd\/6TQQ=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-y2jWjcCCSQtg5p+7WxSZLu\/LvU4yk723mB4ZuSEVgm0=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-XdEMTrDJC9\/OIhDBiNVOF63fPe6mcuxdRjPmPhsysjU=",
@@ -23,9 +23,9 @@
       "Microsoft.JSInterop.dll": "sha256-7CHE6WDjgusBzSbcf7PpCoa+8LIaKTx0ZZuru3MLeAE=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-wpwEXASX+xrCyOB0F7WFlwm\/Oux4QdeUH5gvPaeTwZI=",
       "Microsoft.Win32.Primitives.dll": "sha256-OKH8A79rKzw4gJFYytB222hKF9BbHqaBTLnHM4N7l\/U=",
-      "MQTTnet.ClientLib.dll": "sha256-IWDe9wXgqIQdAOCq7M2D3SEpcOe2Wb0n6ESqA6pCtJw=",
+      "MQTTnet.ClientLib.dll": "sha256-\/GnzHHdFI2jB5+bvS1poCGQqKgf7nCdVA75KX4zqz+g=",
       "MQTTnet.dll": "sha256-Gav6tsYiTOsw1xAIdmPZxyr\/1tCCbtOZgOyYC0Qapuo=",
-      "netstandard.dll": "sha256-Zrfg4wD\/CTwS+TgCQENwvnGByr8yNTB70HFFyiPpwf0=",
+      "netstandard.dll": "sha256-xKnwigtMYrHuh0CWUknqOnbmwPEr1HEUCHBcUoeKCcA=",
       "System.Collections.Concurrent.dll": "sha256-hx3DP+bQSvQiy2ibBq39L69fOQpvDA0jXqYYYH73388=",
       "System.Collections.dll": "sha256-VTg3rC2BaQOKwxM5PKOUbzBrv5DkD\/IgU7BnZORkbW0=",
       "System.Collections.NonGeneric.dll": "sha256-ftliAy9Nn4gwO+Ya6AshooR3cYn6vJdqMNl60G\/6+9g=",
