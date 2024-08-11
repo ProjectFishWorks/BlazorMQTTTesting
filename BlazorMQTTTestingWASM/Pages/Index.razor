@@ -12,49 +12,59 @@
 
 <PageTitle>Connection</PageTitle>
 
-<h1>Project Fishworks - Prototype App</h1>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Connection Stats</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        @if (MqttService.IsConnected())
+        {
+            <MudChip T="string" Color="Color.Success">Connected</MudChip>
+        }
+        else
+        {
+            <MudChip T="string" Color="Color.Error">Not Connected</MudChip>
+        }
+        <MudText Typo="Typo.h6">Messages Received : @MqttService.MeassagesReceived</MudText>
+    </MudCardContent>
+</MudCard>
 
-<div class="container">
-    <br /> MQTT client connection status : @MqttService.IsConnected()
-    <br /> Messages Receviced : @MqttService.MeassagesReceived
-</div>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">MQTT Connection</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField Label="Web Socket URL" @bind-Value="mqttWebSocket" />
+        <MudTextField Label="Username" @bind-Value="mqttUsername" />
+        <MudTextField Label="Password" @bind-Value="mqttPassword" />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="ConnectBtn_Clicked">Connect</MudButton>
+    </MudCardContent>
+</MudCard>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Topic</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+         <MudTextField Label="Topic" @bind-Value="topic" />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SubscribeBtn_Clicked">Subscribe</MudButton>
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="UnsubscribeBtn_Clicked">Unsubscribe</MudButton>
+    </MudCardContent>
+</MudCard>
 
-<div id="ConnectionContainer" class="container">
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Raw Messages</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudDataGrid Items="@MqttService.AllMessages" Filterable="false" SortMode="@SortMode.Multiple" Groupable="false">
+            <Columns>
+                <PropertyColumn Property="x => x.Key" Title="Topic" />
+                <PropertyColumn Property="x => x.Value" Title="Data"/>
+            </Columns>
+        </MudDataGrid>
+    </MudCardContent>
 
-    <h3>MQTT Connection</h3>
-
-    <label>Web Socket URL:</label>
-    <input type="text" @bind="mqttWebSocket" class="form-control" aria-label="Default" />
-    <label>Username :</label>
-    <input type="text" @bind="mqttUsername" class="form-control" aria-label="Default" />
-    <label>Password :</label>
-    <input type="text" @bind="mqttPassword" class="form-control" aria-label="Default" />
-    <button class="btn btn-primary" @onclick="ConnectBtn_Clicked">Connect</button>
-</div>
-
-<div id="TopicContainer" class="container">
-    <label>Topic:</label>
-    <input type="text" @bind="topic" class="form-control" aria-label="Default" placeholder="Topic" />
-    <button class="btn btn-success" @onclick="SubscribeBtn_Clicked">Subscribe</button>
-    <button class="btn btn-danger" @onclick="UnsubscribeBtn_Clicked">Unsubscribe</button>
-</div>
-
-<div id="MessageContainer" class="container">
-    <h3>Messages</h3>
-    <p>Most recent message reacived for each topic</p>
-    <table class="table">
-        <tbody>
-            @foreach (var kpv in MqttService.AllMessages)
-            {
-                <tr>
-                    <td>@kpv.Key</td>
-                    <td>@kpv.Value</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
+</MudCard>
 @code{
     private string mqttWebSocket { get; set; } = "ce739858516845f790a6ae61e13368f9.s1.eu.hivemq.cloud:8884/mqtt";
     private string mqttUsername { get; set; } = "";
