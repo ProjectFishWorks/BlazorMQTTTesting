@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using System.Net.Http
 
+@using BlazorMQTTTestingWASM.Models
+
 @using System.Text;
 @using MQTTnet.Client.Connecting;
 @using MQTTnet.Client.Disconnecting;
@@ -8,23 +10,25 @@
 @inject HttpClient Http
 @inject MQTTnet.ClientLib.MqttService MqttService
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Connection</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>Project Fishworks - Prototype App</h1>
 
 <div class="container">
-    Welcome to MQTTnet Blazor Web App playground.
     <br /> MQTT client connection status : @MqttService.IsConnected()
     <br /> Messages Receviced : @MqttService.MeassagesReceived
 </div>
 
 <div id="ConnectionContainer" class="container">
-    <label>Web Socket :</label>
+
+    <h3>MQTT Connection</h3>
+
+    <label>Web Socket URL:</label>
     <input type="text" @bind="mqttWebSocket" class="form-control" aria-label="Default" />
+    <label>Username :</label>
+    <input type="text" @bind="mqttUsername" class="form-control" aria-label="Default" />
+    <label>Password :</label>
+    <input type="text" @bind="mqttPassword" class="form-control" aria-label="Default" />
     <button class="btn btn-primary" @onclick="ConnectBtn_Clicked">Connect</button>
 </div>
 
@@ -36,7 +40,8 @@ Welcome to your new app.
 </div>
 
 <div id="MessageContainer" class="container">
-    <h3>Message board</h3>
+    <h3>Messages</h3>
+    <p>Most recent message reacived for each topic</p>
     <table class="table">
         <tbody>
             @foreach (var kpv in MqttService.AllMessages)
@@ -51,11 +56,13 @@ Welcome to your new app.
 </div>
 
 @code{
-    private string mqttWebSocket { get; set; } = "broker.hivemq.com:8884/mqtt";
+    private string mqttWebSocket { get; set; } = "ce739858516845f790a6ae61e13368f9.s1.eu.hivemq.cloud:8884/mqtt";
+    private string mqttUsername { get; set; } = "";
+    private string mqttPassword { get; set; } = "";
 
     private string MqttClientConnection { get; set; }
 
-    private string topic { get; set; } = "testtopic/#";
+    private string topic { get; set; } = "#";
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +92,7 @@ Welcome to your new app.
     {
         var mqttClientOptions = new MQTTnet.Client.Options.MqttClientOptionsBuilder()
             .WithClientId(Guid.NewGuid().ToString())
+            .WithCredentials(mqttUsername, mqttPassword)
             .WithWebSocketServer(mqttWebSocket)
             .WithTls()
             .WithCleanSession()

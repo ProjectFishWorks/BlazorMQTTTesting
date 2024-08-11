@@ -1,0 +1,41 @@
+﻿@using BlazorMQTTTestingWASM.Models
+@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+<h3>TesterHat</h3>
+
+<p>Potentiometer: @testerHat.PotentiometerValue</p>
+
+
+<MudCheckBox @bind-Value="testerHat.ButtonValues[0]" ReadOnly="true"></MudCheckBox>
+<MudCheckBox @bind-Value="testerHat.ButtonValues[1]" ReadOnly="true"></MudCheckBox>
+<MudCheckBox @bind-Value="testerHat.ButtonValues[2]" ReadOnly="true"></MudCheckBox>
+<MudCheckBox @bind-Value="testerHat.ButtonValues[3]" ReadOnly="true"></MudCheckBox>
+
+
+@code {
+    [Parameter]
+    public int systemID { get; set; } = 0;
+    [Parameter]
+    public int basestationID { get; set; } = 0;
+    [Parameter]
+    public int nodeID { get; set; } = 0;
+
+    TesterHatDevice testerHat;
+
+    protected override async Task OnInitializedAsync(){
+        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        if (MqttService.IsConnected())
+        {
+            MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+    }
+
+    private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
+    {
+        base.StateHasChanged();
+    }
+
+
+
+}
