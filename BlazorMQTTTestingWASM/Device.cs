@@ -43,6 +43,23 @@ namespace BlazorMQTTTestingWASM.Models
             }
             return null;
         }
+
+        async public void sendMessageData(int nodeID, int messageID, ulong data)
+        {
+            MQTTData mQTTData = new MQTTData();
+            mQTTData.data = data;
+            DateTime currentTime = System.DateTime.UtcNow;
+            mQTTData.time = (ulong)((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+            string json = JsonSerializer.Serialize(mQTTData);
+            string topic = $"in/{systemID}/{basestationID}/{nodeID}/{messageID}";
+            MqttApplicationMessage message = new MqttApplicationMessageBuilder()
+                .WithTopic(topic)
+                .WithPayload(Encoding.UTF8.GetBytes(json))
+                .WithRetainFlag()
+                .Build();
+            await mqttService.Publish(message);
+        }
+
     }
 }
 
