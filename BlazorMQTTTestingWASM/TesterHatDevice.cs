@@ -10,16 +10,16 @@ namespace BlazorMQTTTestingWASM.Models
             this.nodeID = nodeID;
         }
 
-        public string PotentiometerValue
+        public int? PotentiometerValue
         {
             get
             {
                 ulong? value = getMessageData(nodeID, 45056);
                 if(value.HasValue)
                 {
-                    return value.Value.ToString();
+                    return (int)value.Value;
                 }
-                return "-";
+                return null;
             }
         }
 

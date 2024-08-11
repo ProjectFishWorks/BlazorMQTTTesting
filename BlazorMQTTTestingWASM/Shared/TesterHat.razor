@@ -2,15 +2,47 @@
 @using MQTTnet
 @inject MQTTnet.ClientLib.MqttService MqttService
 
-<h3>TesterHat</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudGrid Justify="Justify.Center">
+            <h3>TesterHat</h3>
+        </MudGrid>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">Potentiometer</MudText>
+            </MudItem>
+            <MudItem xs="6">
+                @if (testerHat.PotentiometerValue == null)
+                {
+                    <MudProgressCircular Size="Size.Medium" Color=" Color.Primary" Indeterminate="true" />
+                }
+                else
+                {
+                    <MudProgressCircular Size="Size.Medium" Color="Color.Primary" Value="@testerHat.PotentiometerValue.Value" Min="0" Max="4096" />
+                }
+            </MudItem>
+            <MudItem xs="3">
+                <MudSwitch @bind-Value="testerHat.ButtonValues[0]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudText Typo="Typo.h6">Button 1</MudText>
+            </MudItem>
+            <MudItem xs="3">
+                <MudSwitch @bind-Value="testerHat.ButtonValues[1]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudText Typo="Typo.h6">Button 2</MudText>
+                </MudItem>
+            <MudItem xs="3">
+                <MudSwitch @bind-Value="testerHat.ButtonValues[2]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudText Typo="Typo.h6">Button 3</MudText>
+             </MudItem>
+             <MudItem xs="3">
+                <MudSwitch @bind-Value="testerHat.ButtonValues[3]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudText Typo="Typo.h6">Button 4</MudText>
+             </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
 
-<p>Potentiometer: @testerHat.PotentiometerValue</p>
-
-
-<MudCheckBox @bind-Value="testerHat.ButtonValues[0]" ReadOnly="true"></MudCheckBox>
-<MudCheckBox @bind-Value="testerHat.ButtonValues[1]" ReadOnly="true"></MudCheckBox>
-<MudCheckBox @bind-Value="testerHat.ButtonValues[2]" ReadOnly="true"></MudCheckBox>
-<MudCheckBox @bind-Value="testerHat.ButtonValues[3]" ReadOnly="true"></MudCheckBox>
 
 
 @code {
