@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "BlazorMQTTTestingWASM",
   "resources": {
-    "hash": "sha256-iOITh9dBfzreQRUOVqgZ67rln29fieHZ3RB5SE1uC8Q=",
+    "hash": "sha256-tdCTa9FvrMPEskqhODab7+7npamOH5nAW4Y4koj39FQ=",
     "jsModuleNative": {
       "dotnet.native.8.0.7.pvkr2na9g4.js": "sha256-tFsxPBbhkdn6GKNBKvCRLzrfAHdyM86odYTe0MtrwMk="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "BlazorMQTTTestingWASM.wasm": "sha256-YhCRnMbstDE6jVulStVoq4qf3KZt7kKOEjFRxG5xSmE=",
+      "BlazorMQTTTestingWASM.wasm": "sha256-uWoP2VzFnzBlfXwo1JJGNxAZX4UiFPPTyiSIHoIBT3E=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-TH9t55hhPiwEWEKPMgKzN713ohMRR0rxDyxMtjvf7GI=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-x9FHn5PVG+S/Tit5z+F8PdWKg6KOED34X+B6784kLNc=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-A9pkQWoS/qeTqCghJMmAuM0smDYZuNylhH75xEL3I1o=",
@@ -35,7 +35,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-Ms2HR5Gpug/0uRAzdk4SUNT76Ml3CjFv9Jo+dUIMGac=",
       "Microsoft.JSInterop.wasm": "sha256-sSGkq92joZqQ127BsZhDunya1tK26Rcjwizv1Let1Rw=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-rhDkGvVEd5YGb2JsVk1xQC7gCF8TXNfpDfo9dGFhuyI=",
-      "MQTTnet.ClientLib.wasm": "sha256-pOvUBOWKTwam+j7RcjAy9Le6eDlj3mntfPZQiyrb0bg=",
+      "MQTTnet.ClientLib.wasm": "sha256-+xsft4JpMOlFMPXkV7gPpuqoGGs9hbbthBsozs7bxJE=",
       "MQTTnet.wasm": "sha256-PGK00q7Oe1M83gdVhtkC88AWaKBqQuOAq+p5uUm/CuM=",
       "MudBlazor.wasm": "sha256-3hdDUAlZ57YIXAygomfHdT1e3iH+rv0g4zzCMI2ITK0=",
       "netstandard.wasm": "sha256-P1Ii5W9UCTkKXVSnr8y0WYpyE71DV84mKlAMrqtf2u0=",
