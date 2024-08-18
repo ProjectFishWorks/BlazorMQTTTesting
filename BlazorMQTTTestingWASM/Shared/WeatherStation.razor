@@ -1,0 +1,51 @@
+﻿@using BlazorMQTTTestingWASM.Models
+@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+<MudCard>
+    <MudCardHeader>
+        <MudGrid Justify="Justify.Center">
+            <MudText Typo="Typo.h4" Align="Align.Center">Weather Station</MudText>
+        </MudGrid>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h2" Align="Align.Center">@weatherStation.TemperatureBME °</MudText>
+                <MudText Typo="Typo.h6" Align="Align.Left">RTD: @weatherStation.TemperatureRTD °</MudText>
+            </MudItem>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h2" Align="Align.Center">@weatherStation.Humidity %</MudText>
+             </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+
+
+@code {
+    [Parameter]
+    public int systemID { get; set; } = 0;
+    [Parameter]
+    public int basestationID { get; set; } = 0;
+    [Parameter]
+    public int nodeID { get; set; } = 0;
+
+    WeatherStationDevice weatherStation;
+
+    protected override async Task OnInitializedAsync(){
+        this.weatherStation = new WeatherStationDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        if (MqttService.IsConnected())
+        {
+            MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+    }
+
+    private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
+    {
+        base.StateHasChanged();
+    }
+
+
+
+}
