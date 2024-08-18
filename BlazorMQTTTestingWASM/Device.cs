@@ -44,6 +44,18 @@ namespace BlazorMQTTTestingWASM.Models
             return null;
         }
 
+        public float? getMessageDataFloat(int nodeID, int messageID)
+        {
+            ulong? data = getMessageData(nodeID, messageID);
+            if(data == null)
+            {
+                return null;
+            }
+            byte[] bytes = BitConverter.GetBytes((ulong)data);
+
+            return BitConverter.ToSingle(bytes, 0);
+        }
+
         async public void sendMessageData(int nodeID, int messageID, ulong data)
         {
             MQTTData mQTTData = new MQTTData();
