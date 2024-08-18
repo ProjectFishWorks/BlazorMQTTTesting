@@ -50,7 +50,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41728), 2);
+                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41728)/1000, 2);
             }
         }
 
@@ -67,6 +67,14 @@ namespace BlazorMQTTTestingWASM.Models
             get
             {
                 return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41985), 2);
+            }
+        }
+
+        public int WindDirectionMax
+        {
+            get
+            {
+                return (int)getMessageData(nodeID, 42240);
             }
         }
 
@@ -88,11 +96,11 @@ namespace BlazorMQTTTestingWASM.Models
         }
 
 
-        public float? Rainfall
+        public float? RainfallPerHour
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42496), 3);
+                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42496) * 60.0, 3);
             }
         }
 

@@ -19,11 +19,11 @@
     <MudCardContent>
         @if (MqttService.IsConnected())
         {
-            <MudChip T="string" Color="Color.Success">Connected</MudChip>
+            <MudChip T="string" Color="MudBlazor.Color.Success">Connected</MudChip>
         }
         else
         {
-            <MudChip T="string" Color="Color.Error">Not Connected</MudChip>
+            <MudChip T="string" Color="MudBlazor.Color.Error">Not Connected</MudChip>
         }
         <MudText Typo="Typo.h6">Messages Received : @MqttService.MeassagesReceived</MudText>
     </MudCardContent>
@@ -37,7 +37,7 @@
         <MudTextField Label="Web Socket URL" @bind-Value="mqttWebSocket" />
         <MudTextField Label="Username" @bind-Value="mqttUsername" />
         <MudTextField Label="Password" @bind-Value="mqttPassword" />
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="ConnectBtn_Clicked">Connect</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="ConnectBtn_Clicked">Connect</MudButton>
     </MudCardContent>
 </MudCard>
 <MudCard>
@@ -46,8 +46,8 @@
     </MudCardHeader>
     <MudCardContent>
          <MudTextField Label="Topic" @bind-Value="topic" />
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SubscribeBtn_Clicked">Subscribe</MudButton>
-        <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="UnsubscribeBtn_Clicked">Unsubscribe</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="SubscribeBtn_Clicked">Subscribe</MudButton>
+        <MudButton Color="MudBlazor.Color.Secondary" Variant="Variant.Filled" OnClick="UnsubscribeBtn_Clicked">Unsubscribe</MudButton>
     </MudCardContent>
 </MudCard>
 

@@ -5,19 +5,40 @@
 <MudCard>
     <MudCardHeader>
         <MudGrid Justify="Justify.Center">
-            <MudText Typo="Typo.h4" Align="Align.Center">Weather Station</MudText>
+            <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">Weather Station</MudText>
         </MudGrid>
     </MudCardHeader>
     <MudCardContent>
         <MudGrid>
             <MudItem xs="6">
-                <MudText Typo="Typo.h2" Align="Align.Center">@weatherStation.TemperatureBME °</MudText>
-                <MudText Typo="Typo.h6" Align="Align.Left">RTD: @weatherStation.TemperatureRTD °</MudText>
+                <MudText Typo="Typo.h2" Align="MudBlazor.Align.Center">@weatherStation.TemperatureBME °</MudText>
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">RTD: @weatherStation.TemperatureRTD °</MudText>
             </MudItem>
             <MudItem xs="6">
-                <MudText Typo="Typo.h2" Align="Align.Center">@weatherStation.Humidity %</MudText>
+                <MudText Typo="Typo.h2" Align="MudBlazor.Align.Center">@weatherStation.Humidity %</MudText>
              </MudItem>
         </MudGrid>
+        <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Pressure: @(weatherStation.Pressure) kPa</MudText>
+        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">Wind</MudText>
+        <MudGrid>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Speed: @(weatherStation.WindSpeedAverage) kph</MudText>
+            </MudItem>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Guest: @(weatherStation.WindSpeedMax) kph</MudText>
+            </MudItem>
+
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Direction: @(weatherStation.WindDirectionMax) °</MudText>
+            </MudItem>
+        </MudGrid>
+        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">Rain</MudText>
+        <MudGrid>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Rain: @(weatherStation.RainfallPerHour) mm/hour</MudText>
+            </MudItem>
+         </MudGrid>
+
     </MudCardContent>
 </MudCard>
 
@@ -33,8 +54,11 @@
 
     WeatherStationDevice weatherStation;
 
+    private KeyValuePair<int, float?> windDirections;
+
     protected override async Task OnInitializedAsync(){
         this.weatherStation = new WeatherStationDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        //windDirections = this.weatherStation.WindDirections.ToList();
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;

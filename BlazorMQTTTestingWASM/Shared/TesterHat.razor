@@ -16,34 +16,34 @@
             <MudItem xs="2">
                 @if (testerHat.PotentiometerValue == null)
                 {
-                    <MudProgressCircular Size="Size.Medium" Color=" Color.Primary" Indeterminate="true" />
+                    <MudProgressCircular Size="MudBlazor.Size.Medium" Color=" MudBlazor.Color.Primary" Indeterminate="true" />
                 }
                 else
                 {
-                    <MudProgressCircular Size="Size.Medium" Color="Color.Primary" Value="@testerHat.PotentiometerValue.Value" Min="0" Max="4096" />
+                    <MudProgressCircular Size="MudBlazor.Size.Medium" Color="MudBlazor.Color.Primary" Value="@testerHat.PotentiometerValue.Value" Min="0" Max="4096" />
                 }
             </MudItem>
             <MudFlexBreak />
             <MudItem xs="3">
-                <MudSwitch @bind-Value="testerHat.ButtonValues[0]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudSwitch @bind-Value="testerHat.ButtonValues[0]" Color="MudBlazor.Color.Secondary" ReadOnly=" true"></MudSwitch>
                 <MudText Typo="Typo.h6">Button 1</MudText>
                 <MudSlider @bind-Value="testerHat.LED1" Min=0 Max=255></MudSlider>
                 <MudText Typo="Typo.h6">LED 1</MudText>
             </MudItem>
             <MudItem xs="3">
-                <MudSwitch @bind-Value="testerHat.ButtonValues[1]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudSwitch @bind-Value="testerHat.ButtonValues[1]" Color="MudBlazor.Color.Secondary" ReadOnly=" true"></MudSwitch>
                 <MudText Typo="Typo.h6">Button 2</MudText>
                 <MudSlider @bind-Value="testerHat.LED2" Min=0 Max=255></MudSlider>
                 <MudText Typo="Typo.h6">LED 2</MudText>
                 </MudItem>
             <MudItem xs="3">
-                <MudSwitch @bind-Value="testerHat.ButtonValues[2]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudSwitch @bind-Value="testerHat.ButtonValues[2]" Color="MudBlazor.Color.Secondary" ReadOnly=" true"></MudSwitch>
                 <MudText Typo="Typo.h6">Button 3</MudText>
                 <MudSlider @bind-Value="testerHat.LED3" Min=0 Max=255></MudSlider>
                 <MudText Typo="Typo.h6">LED 3</MudText>
              </MudItem>
              <MudItem xs="3">
-                <MudSwitch @bind-Value="testerHat.ButtonValues[3]" Color="Color.Secondary" ReadOnly=" true"></MudSwitch>
+                <MudSwitch @bind-Value="testerHat.ButtonValues[3]" Color="MudBlazor.Color.Secondary" ReadOnly=" true"></MudSwitch>
                 <MudText Typo="Typo.h6">Button 4</MudText>
                 <MudSlider @bind-Value="testerHat.LED4" Min=0 Max=255></MudSlider>
                 <MudText Typo="Typo.h6">LED 4</MudText>
