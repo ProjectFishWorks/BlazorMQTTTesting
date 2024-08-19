@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/{username?}/{password?}"
 @using System.Net.Http
 
 @using BlazorMQTTTestingWASM.Models
@@ -74,12 +74,25 @@
 
     private string topic { get; set; } = "#";
 
+    [Parameter]
+    public string username { get; set; }
+
+    [Parameter]
+    public string password { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         MqttClientConnection = "Disconnected";
         if(MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+
+        if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+        {
+            mqttUsername = username;
+            mqttPassword = password;
+            ConnectBtn_Clicked();
         }
     }
 
@@ -114,6 +127,9 @@
 
         var result = await MqttService.Connect();
         MqttClientConnection = result ? "Connected" : "Disconnected";
+
+        await MqttService.Subscribe(topic);
+
         base.StateHasChanged();
     }
 }
