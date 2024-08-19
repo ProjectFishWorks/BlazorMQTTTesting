@@ -1,4 +1,4 @@
-﻿@page "/{username?}/{password?}"
+﻿@page "/"
 @using System.Net.Http
 
 @using BlazorMQTTTestingWASM.Models
@@ -74,10 +74,10 @@
 
     private string topic { get; set; } = "#";
 
-    [Parameter]
+    [SupplyParameterFromQuery]
     public string username { get; set; }
 
-    [Parameter]
+    [SupplyParameterFromQuery]
     public string password { get; set; }
 
     protected override async Task OnInitializedAsync()
