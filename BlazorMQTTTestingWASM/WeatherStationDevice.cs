@@ -18,7 +18,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (int?)getMessageData(nodeID, 16384);
+                return (int?)getMessagePayload(nodeID, 16384).data;
             }
         }
 
@@ -26,7 +26,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41216),2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41216).dataFloat,2);
             }
         }
         
@@ -34,7 +34,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41217), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41217).dataFloat, 2);
             }
         }
 
@@ -42,7 +42,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41472), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41472).dataFloat, 2);
             }
         }
 
@@ -50,7 +50,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41728)/1000, 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41728).dataFloat / 1000, 2);
             }
         }
 
@@ -58,7 +58,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41984), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41984).dataFloat, 2);
             }
         }
 
@@ -66,7 +66,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 41985), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 41985).dataFloat, 2);
             }
         }
 
@@ -74,7 +74,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (int)getMessageData(nodeID, 42240);
+                return (int)getMessagePayload(nodeID, 42240).data;
             }
         }
 
@@ -83,14 +83,14 @@ namespace BlazorMQTTTestingWASM.Models
             get
             {
                 Dictionary<int,float?> values = new Dictionary<int,float?>();
-                values.Add(0, getMessageDataFloat(nodeID, 42241));
-                values.Add(45, getMessageDataFloat(nodeID, 42242));
-                values.Add(90, getMessageDataFloat(nodeID, 42243));
-                values.Add(135, getMessageDataFloat(nodeID, 42244));
-                values.Add(180, getMessageDataFloat(nodeID, 42245));
-                values.Add(225, getMessageDataFloat(nodeID, 42246));
-                values.Add(270, getMessageDataFloat(nodeID, 42247));
-                values.Add(315, getMessageDataFloat(nodeID, 42248));
+                values.Add(0, getMessagePayload(nodeID, 42241).dataFloat);
+                values.Add(45, getMessagePayload(nodeID, 42242).dataFloat);
+                values.Add(90, getMessagePayload(nodeID, 42243).dataFloat);
+                values.Add(135, getMessagePayload(nodeID, 42244).dataFloat);
+                values.Add(180, getMessagePayload(nodeID, 42245).dataFloat);
+                values.Add(225, getMessagePayload(nodeID, 42246).dataFloat);
+                values.Add(270, getMessagePayload(nodeID, 42247).dataFloat);
+                values.Add(315, getMessagePayload(nodeID, 42248).dataFloat);
                 return values;
             }
         }
@@ -100,7 +100,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42496), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 42496).dataFloat, 2);
             }
         }
 
@@ -108,14 +108,14 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42497), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 42497).dataFloat, 2);
             }
         }
         public float? RainfallLastDay
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42498), 2);
+                return (float?)Math.Round((double)getMessagePayload(nodeID, 42498).dataFloat, 2);
             }
         }
         

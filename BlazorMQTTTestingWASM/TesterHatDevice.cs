@@ -73,7 +73,7 @@ namespace BlazorMQTTTestingWASM.Models
         {
             get
             {
-                ulong? value = getMessageData(nodeID, 45056);
+                ulong? value = getMessagePayload(nodeID, 45056).data;
                 if(value.HasValue)
                 {
                     return (int)value.Value;
@@ -89,7 +89,7 @@ namespace BlazorMQTTTestingWASM.Models
                 List<Boolean?> values = new List<Boolean?>();
                 for(int i = 0; i < 4; i++)
                 {
-                    ulong? value = getMessageData(nodeID, 45057 + i);
+                    ulong? value = getMessagePayload(nodeID, 45057 + i).data;
                     if(value.HasValue)
                     {
                         values.Add(value.Value == 0);

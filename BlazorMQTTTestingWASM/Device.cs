@@ -22,38 +22,26 @@ namespace BlazorMQTTTestingWASM.Models
             this.basestationID = basestationID;
         }
 
-        public ulong? getMessageData(int nodeID, int messageID)
+        public MQTTData? getMessagePayload(int nodeID, int messageID)
         {
-            foreach(var kvp in mqttService.AllMessages)
+            foreach (var kvp in mqttService.AllMessages)
             {
                 //   out/0/0/170/45056
                 string[] parts = kvp.Key.Split('/');
-                if(parts.Length == 5)
+                if (parts.Length == 5)
                 {
-                    if(parts[0] == "out" && parts[1] == systemID.ToString() && parts[2] == basestationID.ToString() && parts[3] == nodeID.ToString() && parts[4] == messageID.ToString())
-                    {   
+                    if (parts[0] == "out" && parts[1] == systemID.ToString() && parts[2] == basestationID.ToString() && parts[3] == nodeID.ToString() && parts[4] == messageID.ToString())
+                    {
                         MQTTData? mQTTData = JsonSerializer.Deserialize<MQTTData>(kvp.Value);
-                        if(mQTTData == null)
+                        if (mQTTData == null)
                         {
                             return null;
                         }
-                        return mQTTData.data;
+                        return mQTTData;
                     }
                 }
             }
-            return null;
-        }
-
-        public float? getMessageDataFloat(int nodeID, int messageID)
-        {
-            ulong? data = getMessageData(nodeID, messageID);
-            if(data == null)
-            {
-                return null;
-            }
-            byte[] bytes = BitConverter.GetBytes((ulong)data);
-
-            return BitConverter.ToSingle(bytes, 0);
+            return new MQTTData();
         }
 
         async public void sendMessageData(int nodeID, int messageID, ulong data)
