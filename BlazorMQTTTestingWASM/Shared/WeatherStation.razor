@@ -35,7 +35,13 @@
         <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">Rain</MudText>
         <MudGrid>
             <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Rain: @(weatherStation.RainfallPerHour) mm/hour</MudText>
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last 10mins: @(weatherStation.RainfallLast10Minutes)mm</MudText>
+            </MudItem>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last Hour: @(weatherStation.RainfallLastHour)mm</MudText>
+            </MudItem>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last 24 Hours: @(weatherStation.RainfallLastDay)mm</MudText>
             </MudItem>
          </MudGrid>
 

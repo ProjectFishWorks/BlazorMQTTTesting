@@ -96,13 +96,29 @@ namespace BlazorMQTTTestingWASM.Models
         }
 
 
-        public float? RainfallPerHour
+        public float? RainfallLast10Minutes
         {
             get
             {
-                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42496) * 60.0, 3);
+                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42496), 2);
             }
         }
+
+        public float? RainfallLastHour
+        {
+            get
+            {
+                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42497), 2);
+            }
+        }
+        public float? RainfallLastDay
+        {
+            get
+            {
+                return (float?)Math.Round((double)getMessageDataFloat(nodeID, 42498), 2);
+            }
+        }
+        
 
     }
 }
