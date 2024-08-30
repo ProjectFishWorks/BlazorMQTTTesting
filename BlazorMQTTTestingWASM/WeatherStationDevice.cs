@@ -1,9 +1,4 @@
-﻿using MQTTnet.Client.Publishing;
-using MQTTnet.ClientLib;
-
-using System;
-
-namespace BlazorMQTTTestingWASM.Models
+﻿namespace BlazorMQTTTestingWASM.Models
 {
     public class WeatherStationDevice : Device
     {

@@ -1,6 +1,4 @@
-﻿using MQTTnet.ClientLib;
-
-namespace BlazorMQTTTestingWASM.Models
+﻿namespace BlazorMQTTTestingWASM.Models
 {
     public class TesterHatDevice : Device
     {
