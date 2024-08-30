@@ -118,6 +118,14 @@ namespace BlazorMQTTTestingWASM.Models
                 return (float?)Math.Round((double)getMessagePayload(nodeID, 42498).dataFloat, 2);
             }
         }
+
+        public String? LastUpdatedTime
+        {
+            get
+            {
+                return getMessagePayload(nodeID, 16385).TimeLocal?.ToString("hh:mm:ss tt");
+            }
+        }
         
 
     }
