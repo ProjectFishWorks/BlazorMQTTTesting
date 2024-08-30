@@ -1,4 +1,6 @@
-﻿namespace BlazorMQTTTestingWASM.Models
+﻿using System;
+
+namespace BlazorMQTTTestingWASM.Models
 {
     public class MQTTData
     {
@@ -9,6 +11,28 @@
         }
         public ulong? data { get; set; }
         public ulong? time { get; set; }
+
+        public DateTime? TimeUTC {
+            get
+            {
+                if (time == null)
+                {
+                    return null;
+                }
+                return DateTimeOffset.FromUnixTimeSeconds((long)time).UtcDateTime;
+            }
+        }
+
+        public DateTime? TimeLocal {
+            get
+            {
+                if (time == null)
+                {
+                    return null;
+                }
+                return DateTimeOffset.FromUnixTimeSeconds((long)time).LocalDateTime;
+            }
+        }
 
         public float? dataFloat {
             get
