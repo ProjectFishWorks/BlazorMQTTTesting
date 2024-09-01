@@ -1,0 +1,51 @@
+﻿@using BlazorMQTTTestingWASM.Models
+@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+
+<MudCard>
+    <MudCardHeader>
+        <MudGrid Justify="Justify.Center">
+            <h3>Dual Color LED Lighting</h3>
+        </MudGrid>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid Spacing="10">
+            <MudItem xs="6">
+               <MudText Typo="Typo.h6">WHITE LED</MudText>
+                <MudSlider @bind-Value="dualColorLEDLighting.WhiteLED" Min=0 Max=255></MudSlider>
+            </MudItem>
+            <MudItem xs="6">
+               <MudText Typo="Typo.h6">BLUE LED</MudText>
+                <MudSlider @bind-Value="dualColorLEDLighting.BlueLED" Min=0 Max=255></MudSlider>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+@code 
+{
+    [Parameter]
+    public int systemID { get; set; } = 0;
+    [Parameter]
+    public int basestationID { get; set; } = 0;
+    [Parameter]
+    public int nodeID { get; set; } = 0;
+
+    DualColorLEDLightingDevice dualColorLEDLighting;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.dualColorLEDLighting = new DualColorLEDLightingDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        if (MqttService.IsConnected())
+        {
+            MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+    }
+
+    private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
+    {
+        base.StateHasChanged();
+    }
+}
+
+
