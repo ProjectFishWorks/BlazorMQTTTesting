@@ -13,6 +13,8 @@ namespace BlazorMQTTTestingWASM
         private int _HighNoon = 0;
         private int _NightTime = 0;
         private decimal _BlueOnlyMaxIntensity = 0;
+        private int _CurrentWhiteIntensity = 0;
+        private int _CurrentBlueIntensity = 0;
 
         public int DawnTime
         {
@@ -130,6 +132,35 @@ namespace BlazorMQTTTestingWASM
                 sendMessageData(nodeID, 2561, (ulong)_BlueLED);
             }
         }
+
+        public int CurrentWhiteIntensity
+        {
+            get
+            {
+                return _CurrentWhiteIntensity;
+            }
+            set
+            {
+                _CurrentWhiteIntensity = value;
+                sendMessageData(nodeID, 2569, (ulong)_CurrentWhiteIntensity);
+            }
+        }
+
+        
+
+        public int CurrentBlueIntensity
+        {
+            get
+            {
+                return _CurrentBlueIntensity;
+            }
+            set
+            {
+                _CurrentBlueIntensity = value;
+                sendMessageData(nodeID, 2570, (ulong)_CurrentBlueIntensity);
+            }
+        }
+
         private int nodeID;
         public DualColorLEDLightingDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID, int basestationID, int nodeID) : base(mqttService, systemID, basestationID)
         {

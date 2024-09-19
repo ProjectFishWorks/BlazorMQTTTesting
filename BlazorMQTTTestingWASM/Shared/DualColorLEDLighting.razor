@@ -21,35 +21,49 @@
             </MudItem>
         </MudGrid>
 
-            <MudGrid Spacing="10">
-                <MudItem xs="6">
-                    <MudText Typo="Typo.h6">Adjust Demo Loop Durations</MudText>
-                    <MudNumericField @bind-Value="dualColorLEDLighting.DawnTime" Label="Set Dawn Durration" Variant="Variant.Outlined" Min="5" Max="30" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.SunriseTime" Label="Set Sunrise Duration" Variant="Variant.Outlined" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.HighNoon" Label="Set High Noon Duration" Variant="Variant.Outlined" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.SunsetTime" Label="Set Sunset Duration" Variant="Variant.Outlined" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.DuskTime" Label="Set Dusk Duration" Variant="Variant.Outlined" Min="5" Max="30" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.NightTime" Label="Set Night Duration" Variant="Variant.Outlined" />
-                    <MudNumericField @bind-Value="dualColorLEDLighting.BlueOnlyMaxIntensity" Label="Set the max intensity of the blue light at dusk and dawn" Variant="Variant.Outlined" Step=".5M" />
-                </MudItem>
+        <MudGrid Spacing="10">
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">Adjust Demo Loop Durations</MudText>
+                <MudNumericField @bind-Value="dualColorLEDLighting.DawnTime" Label="Set Dawn Durration" Variant="Variant.Outlined" Min="5" Max="30" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.SunriseTime" Label="Set Sunrise Duration" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.HighNoon" Label="Set High Noon Duration" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.SunsetTime" Label="Set Sunset Duration" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.DuskTime" Label="Set Dusk Duration" Variant="Variant.Outlined" Min="5" Max="30" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.NightTime" Label="Set Night Duration" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="dualColorLEDLighting.BlueOnlyMaxIntensity" Label="Set the max intensity of the blue light at dusk and dawn" Variant="Variant.Outlined" Step=".5M" />
+            </MudItem>
 
-                <MudItem xs="6">
+            <MudItem xs="6">
 
                 <MudPaper Height="360px" Class="d-flex justify-space-around mud-width-full" Elevation="0">
+                    <!--
                     <MudProgressLinear Vertical="true" Color=" MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Indeterminate="true" />
-                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="195" />
-                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="25">
-                        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>25</b></MudText>
-                    </MudProgressLinear>
+                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="195"
                     <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Buffer="true" Value="150" BufferValue="10" />
                     <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Dark" Striped="true" MudBlazor.Size="Size.Large" Value="175" />
+
+                     <MudProgressLinear Vertical="true" Color="Color.Primary" Size="Size.Medium" Value="25">
+                        <MudText Typo="Typo.subtitle1" Color="Color.Dark"><b>25</b></MudText>
+                    </MudProgressLinear>
+
+                    />-->
+
+                    <MudText Typo="Typo.h6">Current Blue Intensity</MudText>
+                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.large" Value="@dualColorLEDLighting.CurrentBlueIntensity">
+                        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentBlueIntensity</b></MudText>
+                    </MudProgressLinear>
+
+                    <MudText Typo="Typo.h6">Current White Intensity</MudText>
+                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Tertiary" MudBlazor.Size="Size.large" Value="@dualColorLEDLighting.CurrentWhiteIntensity">
+                        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentWhiteIntensity</b></MudText>
+                    </MudProgressLinear>
 
 
                 </MudPaper>
 
 
-                </MudItem>
-            </MudGrid>
+            </MudItem>
+        </MudGrid>
     </MudCardContent>
 </MudCard>
 
