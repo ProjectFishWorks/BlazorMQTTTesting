@@ -12,6 +12,7 @@ namespace BlazorMQTTTestingWASM
         private int _SunsetTime = 0;
         private int _HighNoon = 0;
         private int _NightTime = 0;
+        private decimal _BlueOnlyMaxIntensity = 0;
 
         public int DawnTime
         {
@@ -21,7 +22,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _DawnTime = value;
+                _DawnTime = value * 1000;
                 sendMessageData(nodeID, 2562, (ulong)_DawnTime);
             }
         }
@@ -34,7 +35,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _DuskTime = value;
+                _DuskTime = value * 1000;
                 sendMessageData(nodeID, 2563, (ulong)_DuskTime);
             }
         }
@@ -47,7 +48,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _SunriseTime = value;
+                _SunriseTime = value * 1000;
                 sendMessageData(nodeID, 2564, (ulong)_SunriseTime);
             }
         }
@@ -60,7 +61,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _SunsetTime = value;
+                _SunsetTime = value * 1000;
                 sendMessageData(nodeID, 2565, (ulong)_SunsetTime);
             }
         }
@@ -73,7 +74,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _HighNoon = value;
+                _HighNoon = value * 1000;
                 sendMessageData(nodeID, 2566, (ulong)_HighNoon);
             }
         }
@@ -86,10 +87,24 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _NightTime = value;
+                _NightTime = value * 1000;
                 sendMessageData(nodeID, 2567, (ulong)_NightTime);
             }
         }
+
+        public decimal BlueOnlyMaxIntensity
+        {
+            get
+            {
+                return _BlueOnlyMaxIntensity;
+            }
+            set
+            {
+                _BlueOnlyMaxIntensity = value;
+                sendMessageData(nodeID, 2568, (ulong)_BlueOnlyMaxIntensity);
+            }
+        }
+
         public int WhiteLED
         {
             get
