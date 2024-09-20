@@ -14,7 +14,9 @@
     <MudCardContent>
         <MudCard Outlined=true>
             <MudCardContent>
-                <MudSwitch @bind-Value="dualColorLEDLighting.ManualLEDControlOverrideSwitch" Label="Override" Color="MudBlazor.Color.Warning" />
+                <MudSwitch @bind-Value="dualColorLEDLighting.ManualLEDControlOverrideSwitch"
+                           Label="Override"
+                           Color="MudBlazor.Color.Warning" />
                 <MudGrid>
                     <MudItem xs="12">
                         <MudSlider @bind-Value="dualColorLEDLighting.OverrideWhiteIntensity"
@@ -54,20 +56,9 @@
                 <MudNumericField @bind-Value="dualColorLEDLighting.BlueOnlyMaxIntensity" Label="Set Dusk & Dawn Max Intensity" Variant="Variant.Outlined" Step=".5M" />
             </MudItem>
 
+            <!--  ......................................Current LED Status Progress bars.........................  -->
+
             <MudItem xs="3">
-                <!--
-                <MudProgressLinear Vertical="true" Color=" MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Indeterminate="true" />
-                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="195"
-                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Buffer="true" Value="150" BufferValue="10" />
-                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Dark" Striped="true" MudBlazor.Size="Size.Large" Value="175" />
-
-                 <MudProgressLinear Vertical="true" Color="Color.Primary" Size="Size.Medium" Value="25">
-                    <MudText Typo="Typo.subtitle1" Color="Color.Dark"><b>25</b></MudText>
-                </MudProgressLinear>
-
-                />-->
-                <!--  ......................................Current LED Status Progress bars.........................  -->
-
                 <MudText Justify="Justify.Center" Typo="Typo.subtitle1">Current White Intensity</MudText>
                 <MudProgressLinear Vertical="true"
                                    Color="MudBlazor.Color.Warning"
