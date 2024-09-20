@@ -10,14 +10,13 @@
         </MudGrid>
     </MudCardHeader>
     <MudCardContent>
+        <MudSwitch T="bool" Label="Override" Color="MudBlazor.Color.Warning" />
         <MudGrid Spacing="10">
             <MudItem xs="12">
-                <MudText Typo="Typo.h6">WHITE LED</MudText>
-                <MudSlider @bind-Value="dualColorLEDLighting.WhiteLED" Min=0 Max=255></MudSlider>
+                <MudSlider @bind-Value="dualColorLEDLighting.WhiteLED" Variant="Variant.Filled" MudBlazor.Size="Size.large" Min=0 Max=255>"White LED : @(dualColorLEDLighting.WhiteLED/255 * 100)%"</MudSlider>
             </MudItem>
             <MudItem xs="12">
-                <MudText Typo="Typo.h6">BLUE LED</MudText>
-                <MudSlider @bind-Value="dualColorLEDLighting.BlueLED" Min=0 Max=255></MudSlider>
+                <MudSlider @bind-Value="dualColorLEDLighting.BlueLED" Variant="Variant.Filled" MudBlazor.Size="Size.large" Min=0 Max=255></MudSlider>
             </MudItem>
         </MudGrid>
 
@@ -34,22 +33,22 @@
             </MudItem>
 
             <MudItem xs="3">
-                    <!--
-                    <MudProgressLinear Vertical="true" Color=" MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Indeterminate="true" />
-                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="195"
-                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Buffer="true" Value="150" BufferValue="10" />
-                    <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Dark" Striped="true" MudBlazor.Size="Size.Large" Value="175" />
+                <!--
+                <MudProgressLinear Vertical="true" Color=" MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Indeterminate="true" />
+                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Medium" Value="195"
+                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Primary" MudBlazor.Size="Size.Small" Buffer="true" Value="150" BufferValue="10" />
+                <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Dark" Striped="true" MudBlazor.Size="Size.Large" Value="175" />
 
-                     <MudProgressLinear Vertical="true" Color="Color.Primary" Size="Size.Medium" Value="25">
-                        <MudText Typo="Typo.subtitle1" Color="Color.Dark"><b>25</b></MudText>
-                    </MudProgressLinear>
+                 <MudProgressLinear Vertical="true" Color="Color.Primary" Size="Size.Medium" Value="25">
+                    <MudText Typo="Typo.subtitle1" Color="Color.Dark"><b>25</b></MudText>
+                </MudProgressLinear>
 
-                    />-->
+                />-->
 
                 <MudText Typo="Typo.subtitle1">Current White Intensity</MudText>
                 <MudProgressLinear Vertical="true" Color="MudBlazor.Color.Warning" Rounded="true" MudBlazor.Size="Size.large" Style="height:400px ;width:30px;" Value="@dualColorLEDLighting.CurrentWhiteIntensity" Class="my-1">
-                        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentWhiteIntensity</b></MudText>
-                    </MudProgressLinear>
+                    <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentWhiteIntensity</b></MudText>
+                </MudProgressLinear>
 
             </MudItem>
 
