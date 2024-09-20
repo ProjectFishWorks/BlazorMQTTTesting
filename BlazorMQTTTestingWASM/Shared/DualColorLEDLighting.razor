@@ -16,7 +16,7 @@
                 <MudSlider @bind-Value="dualColorLEDLighting.WhiteLED" Variant="Variant.Filled" MudBlazor.Size="Size.large" Min=0 Max=255>"White LED : @(dualColorLEDLighting.WhiteLED/255 * 100)%"</MudSlider>
             </MudItem>
             <MudItem xs="12">
-                <MudSlider @bind-Value="dualColorLEDLighting.BlueLED" Variant="Variant.Filled" MudBlazor.Size="Size.large" Min=0 Max=255></MudSlider>
+                <MudSlider @bind-Value="dualColorLEDLighting.BlueLED" Variant="Variant.Filled" MudBlazor.Size="Size.large" Min=0 Max=255>"Blue LED : @(dualColorLEDLighting.BlueLED / 255 * 100)%"</MudSlider>
             </MudItem>
         </MudGrid>
 
