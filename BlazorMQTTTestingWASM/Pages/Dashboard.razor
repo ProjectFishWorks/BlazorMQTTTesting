@@ -13,6 +13,23 @@
 
 <WeatherStation systemID="0" basestationID="0" nodeID="171"></WeatherStation>
 
+<MudCard Outlined=true xs="6">
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Connection Stats</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        @if (MqttService.IsConnected())
+        {
+            <MudChip T="string" Color="MudBlazor.Color.Success">Connected</MudChip>
+        }
+        else
+        {
+            <MudChip T="string" Color="MudBlazor.Color.Error">Not Connected</MudChip>
+        }
+        <MudText Typo="Typo.h6">Messages Received : @MqttService.MeassagesReceived</MudText>
+    </MudCardContent>
+    </MudCard>
+
 @code {
 
 }
