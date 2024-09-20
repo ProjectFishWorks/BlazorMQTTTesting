@@ -24,8 +24,8 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _DawnTime = value * 1000;
-                sendMessageData(nodeID, 2562, (ulong)_DawnTime);
+                _DawnTime = value;
+                sendMessageData(nodeID, 2562, (ulong)_DawnTime * 1000);
             }
         }
 
@@ -37,8 +37,8 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _DuskTime = value * 1000;
-                sendMessageData(nodeID, 2563, (ulong)_DuskTime);
+                _DuskTime = value;
+                sendMessageData(nodeID, 2563, (ulong)_DuskTime * 1000);
             }
         }
 
@@ -50,8 +50,8 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _SunriseTime = value * 1000;
-                sendMessageData(nodeID, 2564, (ulong)_SunriseTime);
+                _SunriseTime = value;
+                sendMessageData(nodeID, 2564, (ulong)_SunriseTime * 1000);
             }
         }
 
@@ -63,7 +63,7 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _SunsetTime = value * 1000;
+                _SunsetTime = value;
                 sendMessageData(nodeID, 2565, (ulong)_SunsetTime);
             }
         }
@@ -76,8 +76,8 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _HighNoon = value * 1000;
-                sendMessageData(nodeID, 2566, (ulong)_HighNoon);
+                _HighNoon = value;
+                sendMessageData(nodeID, 2566, (ulong)_HighNoon * 1000);
             }
         }
 
@@ -89,8 +89,8 @@ namespace BlazorMQTTTestingWASM
             }
             set
             {
-                _NightTime = value * 1000;
-                sendMessageData(nodeID, 2567, (ulong)_NightTime);
+                _NightTime = value;
+                sendMessageData(nodeID, 2567, (ulong)_NightTime * 1000);
             }
         }
 
