@@ -3,6 +3,9 @@
 @inject MQTTnet.ClientLib.MqttService MqttService
 
 
+
+<!--  ......................................Manual adjusment LED override switch and sliders................................  -->
+
 <MudCard Outlined=true>
     <MudCardHeader>
         <MudGrid Justify="Justify.Center">
@@ -11,14 +14,14 @@
     <MudCardContent>
         <MudCard Outlined=true>
             <MudCardContent>
-                <MudSwitch @bind-Value="dualColorLEDLighting.BrightnessOverrideSwitch" Label="Override" Color="MudBlazor.Color.Warning" />
+                <MudSwitch @bind-Value="dualColorLEDLighting.ManualLEDControlOverrideSwitch" Label="Override" Color="MudBlazor.Color.Warning" />
                 <MudGrid>
                     <MudItem xs="12">
                         <MudSlider @bind-Value="dualColorLEDLighting.OverrideWhiteIntensity"
                                    Variant="Variant.Filled"
                                    MudBlazor.Size="Size.large"
                                    Min=0 Max=255
-                                   Disabled="@(!dualColorLEDLighting.BrightnessOverrideSwitch)">
+                                   Disabled="@(!dualColorLEDLighting.ManualLEDControlOverrideSwitch)">
                             "White LED : @(Math.Round((dualColorLEDLighting.OverrideWhiteIntensity / 255.0M * 100.0M), 1))%"
                         </MudSlider>
                     </MudItem>
@@ -26,14 +29,17 @@
                         <MudSlider @bind-Value="dualColorLEDLighting.OverrideBlueIntensity"
                                    Variant="Variant.Filled"
                                    MudBlazor.Size="Size.large"
-                                   Min=0 Max=255 
-                                   Disabled="@(!dualColorLEDLighting.BrightnessOverrideSwitch)">
+                                   Min=0 Max=255
+                                   Disabled="@(!dualColorLEDLighting.ManualLEDControlOverrideSwitch)">
                             "Blue LED : @(Math.Round((dualColorLEDLighting.OverrideBlueIntensity / 255.0M * 100.0M), 1))%"
                         </MudSlider>
                     </MudItem>
                 </MudGrid>
             </MudCardContent>
         </MudCard>
+
+
+        <!--  ......................................Adjust Demo Loop Durations seconds................................  -->
 
 
         <MudGrid Spacing="10">
@@ -60,25 +66,35 @@
                 </MudProgressLinear>
 
                 />-->
+                <!--  ......................................Current LED Status Progress bars.........................  -->
 
                 <MudText Justify="Justify.Center" Typo="Typo.subtitle1">Current White Intensity</MudText>
-                <MudProgressLinear Vertical="true" 
-                    Color="MudBlazor.Color.Warning" 
-                    Rounded="true" MudBlazor.Size="Size.large" 
-                    Style="height:400px ;width:30px;" 
-                    Value="@dualColorLEDLighting.CurrentWhiteIntensity">
-                    <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentWhiteIntensity</b></MudText>
+                <MudProgressLinear Vertical="true"
+                                   Color="MudBlazor.Color.Warning"
+                                   Rounded="true" MudBlazor.Size="Size.large"
+                                   Style="height:400px ;width:30px;"
+                                   Value="@(dualColorLEDLighting.CurrentWhiteIntensity / 255.0 * 100.0)"
+                                   Min="0" Max="100">
+                    <MudText Typo="Typo.subtitle1"
+                             Color="MudBlazor.Color.Dark"
+                             Min="0" Max="100">
+                        <b>@(Math.Round((dualColorLEDLighting.CurrentWhiteIntensity / 255M * 100M), 1))</b>
+                    </MudText>
                 </MudProgressLinear>
             </MudItem>
 
             <MudItem xs="3" Class="margin-bottom-50">
                 <MudText Justify="Justify.Center" Typo="Typo.subtitle1">Current Blue Intensity</MudText>
-                <MudProgressLinear Vertical="true" 
-                    Color="MudBlazor.Color.Info" 
-                    Rounded="true" MudBlazor.Size="Size.large" 
-                    Style="height:400px ;width:30px;" 
-                    Value="@dualColorLEDLighting.CurrentBlueIntensity">
-                    <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark"><b>@dualColorLEDLighting.CurrentBlueIntensity</b></MudText>
+                <MudProgressLinear Vertical="true"
+                                   Color="MudBlazor.Color.Info"
+                                   Rounded="true" MudBlazor.Size="Size.large"
+                                   Style="height:400px ;width:30px;"
+                                   Value="@(dualColorLEDLighting.CurrentBlueIntensity / 255.0 * 100.0)"
+                                   Min="0" Max="100">
+                    <MudText Typo="Typo.subtitle1"
+                             Color="MudBlazor.Color.Dark">
+                        <b>@(Math.Round((dualColorLEDLighting.CurrentBlueIntensity / 255M * 100M), 1))</b>
+                    </MudText>
                 </MudProgressLinear>
             </MudItem>
 

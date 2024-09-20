@@ -35,9 +35,20 @@
     </MudCardHeader>
     <MudCardContent>
         <MudTextField Label="Web Socket URL" @bind-Value="mqttWebSocket" />
+
+        <!--  Kayleb's form trial from https://www.telerik.com/blogs/blazor-basics-html-forms-capturing-user-data#:~:text=For%20our%20example%2C%20we%20add%20two%20InputText%20components,password.%20%3CInputText%20%40bind-Value%3D%22UserData.Username%22%20%2F%3E%20%3CInputText%20type%3D%22password%22%20%40bind-Value%3D%22UserData.Password%22%20%2F%3E
+        <EditForm Model="@this">
+            <MudTextField Label="Username" @bind-Value="mqttUsername" />
+            <MudTextField Label="Password" @bind-Value="mqttPassword" />
+            <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" type="submit">Connect</MudButton>
+            </EditForm>
+            -->
+
+          
         <MudTextField Label="Username" @bind-Value="mqttUsername" />
         <MudTextField Label="Password" @bind-Value="mqttPassword" />
         <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="ConnectBtn_Clicked">Connect</MudButton>
+        
     </MudCardContent>
 </MudCard>
 <MudCard>
@@ -67,8 +78,8 @@
 </MudCard>
 @code{
     private string mqttWebSocket { get; set; } = "ce739858516845f790a6ae61e13368f9.s1.eu.hivemq.cloud:8884/mqtt";
-    private string mqttUsername { get; set; } = "";
-    private string mqttPassword { get; set; } = "";
+    private string mqttUsername { get; set; } = "fishworks-dev";
+    private string mqttPassword { get; set; } = "F1shworks!";
 
     private string MqttClientConnection { get; set; }
 

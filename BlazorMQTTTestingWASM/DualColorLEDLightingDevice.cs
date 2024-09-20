@@ -15,7 +15,7 @@ namespace BlazorMQTTTestingWASM
         private decimal _BlueOnlyMaxIntensity = 0;
         private int _CurrentWhiteIntensity = 0;
         private int _CurrentBlueIntensity = 0;
-        private bool _BrightnessOverrideSwitch;
+        private bool _ManualLEDControlOverrideSwitch;
         private int _OverrideWhiteIntensity = 0;
         private int _OverrideBlueIntensity = 0;
 
@@ -152,16 +152,16 @@ namespace BlazorMQTTTestingWASM
             }
         }
 
-        public bool BrightnessOverrideSwitch
+        public bool ManualLEDControlOverrideSwitch
         {
             get
             {
-                return _BrightnessOverrideSwitch;
+                return _ManualLEDControlOverrideSwitch;
             }
             set
             {
-                _BrightnessOverrideSwitch = value;
-                sendMessageData(nodeID, 2571, (ulong)(_BrightnessOverrideSwitch ? 1 : 0));
+                _ManualLEDControlOverrideSwitch = value;
+                sendMessageData(nodeID, 2571, (ulong)(_ManualLEDControlOverrideSwitch ? 1 : 0));
             }
         }
 
