@@ -19,6 +19,31 @@ namespace BlazorMQTTTestingWASM
         private int _OverrideWhiteIntensity = 0;
         private int _OverrideBlueIntensity = 0;
 
+        public int WhiteLED
+        {
+            get
+            {
+                return _WhiteLED;
+            }
+            set
+            {
+                _WhiteLED = value;
+                sendMessageData(nodeID, 2560, (ulong)_WhiteLED);
+            }
+        }
+
+        public int BlueLED
+        {
+            get
+            {
+                return _BlueLED;
+            }
+            set
+            {
+                _BlueLED = value;
+                sendMessageData(nodeID, 2561, (ulong)_BlueLED);
+            }
+        }
         public int DawnTime
         {
             get
@@ -110,57 +135,20 @@ namespace BlazorMQTTTestingWASM
             }
         }
 
-        public int WhiteLED
-        {
-            get
-            {
-                return _WhiteLED;
-            }
-            set
-            {
-                _WhiteLED = value;
-                sendMessageData(nodeID, 2560, (ulong)_WhiteLED);
-            }
-        }
-
-        public int BlueLED
-        {
-            get
-            {
-                return _BlueLED;
-            }
-            set
-            {
-                _BlueLED = value;
-                sendMessageData(nodeID, 2561, (ulong)_BlueLED);
-            }
-        }
-
         public int CurrentWhiteIntensity
         {
             get
             {
-                return _CurrentWhiteIntensity;
-            }
-            set
-            {
-                _CurrentWhiteIntensity = value;
-                sendMessageData(nodeID, 2569, (ulong)_CurrentWhiteIntensity);
+                return (int)getMessagePayload(nodeID, 2569).data;
             }
         }
 
-        
 
         public int CurrentBlueIntensity
         {
             get
             {
-                return _CurrentBlueIntensity;
-            }
-            set
-            {
-                _CurrentBlueIntensity = value;
-                sendMessageData(nodeID, 2570, (ulong)_CurrentBlueIntensity);
+                return (int)getMessagePayload(nodeID, 2570).data;
             }
         }
 
