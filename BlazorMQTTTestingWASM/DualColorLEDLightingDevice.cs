@@ -15,6 +15,9 @@ namespace BlazorMQTTTestingWASM
         private decimal _BlueOnlyMaxIntensity = 0;
         private int _CurrentWhiteIntensity = 0;
         private int _CurrentBlueIntensity = 0;
+        private bool _BrightnessOverrideSwitch;
+        private int _OverrideWhiteIntensity = 0;
+        private int _OverrideBlueIntensity = 0;
 
         public int DawnTime
         {
@@ -158,6 +161,45 @@ namespace BlazorMQTTTestingWASM
             {
                 _CurrentBlueIntensity = value;
                 sendMessageData(nodeID, 2570, (ulong)_CurrentBlueIntensity);
+            }
+        }
+
+        public bool BrightnessOverrideSwitch
+        {
+            get
+            {
+                return _BrightnessOverrideSwitch;
+            }
+            set
+            {
+                _BrightnessOverrideSwitch = value;
+                sendMessageData(nodeID, 2571, (ulong)(_BrightnessOverrideSwitch ? 1 : 0));
+            }
+        }
+
+        public int OverrideWhiteIntensity
+        {
+            get
+            {
+                return _OverrideWhiteIntensity;
+            }
+            set
+            {
+                _OverrideWhiteIntensity = value;
+                sendMessageData(nodeID, 2572, (ulong)_OverrideWhiteIntensity);
+            }
+        }
+
+        public int OverrideBlueIntensity
+        {
+            get
+            {
+                return _OverrideBlueIntensity;
+            }
+            set
+            {
+                _OverrideBlueIntensity = value;
+                sendMessageData(nodeID, 2573, (ulong)_OverrideBlueIntensity);
             }
         }
 
