@@ -1,0 +1,57 @@
+﻿@using BlazorMQTTTestingWASM.Models
+@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+@page "/Widgets"
+
+<PageTitle>Widgets</PageTitle>
+
+<h1>Widgets</h1>
+
+
+
+<MudCard Outlined=true>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="3">
+                @if (_Edit)
+                {
+                    <MudTextField @bind-Value="@Title"></MudTextField>
+                    <!--
+                    <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
+                    <MudTextField @bind-Value="TextValue" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                    -->
+                }
+                @if (!_Edit)
+                {
+                    <MudText Typo="Typo.h6">
+                        @Title
+                    </MudText>
+                }
+            </MudItem>
+            <MudItem xs="3">
+                <MudText>
+                    <MudToggleIconButton @bind-Toggled="_Edit"
+                                         Icon="@Icons.Material.Filled.Edit"
+                                         Color="MudBlazor.Color.Primary"
+                                         ToggledIcon="@Icons.Material.Filled.CheckCircle"
+                                         ToggledColor="MudBlazor.Color.Warning"
+                                         title="@(_Edit ? "On" : "Off")" />
+                    <span>Edit is @(_Edit ? "On" : "Off")</span>
+                </MudText>
+            </MudItem>
+        </MudGrid>
+        <MudLink Href="/SetLightingSchedule">
+            Lighting-Demo Settings
+        </MudLink>
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    public bool _Edit { get; set; }
+
+    public string Title { get; set; } = "Edit Title";
+}
+

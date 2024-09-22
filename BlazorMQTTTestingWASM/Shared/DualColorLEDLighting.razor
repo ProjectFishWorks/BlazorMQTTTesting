@@ -22,6 +22,7 @@
                         <MudSlider @bind-Value="dualColorLEDLighting.OverrideWhiteIntensity"
                                    Variant="Variant.Filled"
                                    MudBlazor.Size="Size.large"
+                                   Color="MudBlazor.Color.Warning"
                                    Min=0 Max=255
                                    Disabled="@(!dualColorLEDLighting.ManualLEDControlOverrideSwitch)">
                             "White LED : @(Math.Round((dualColorLEDLighting.OverrideWhiteIntensity / 255.0M * 100.0M), 1))%"
