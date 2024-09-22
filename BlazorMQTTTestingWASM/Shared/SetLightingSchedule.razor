@@ -14,27 +14,27 @@
     <MudCardContent>
         <MudCard Outlined=true>
             <MudCardContent>
-                <MudSwitch @bind-Value="dualColorLEDLighting.ManualLEDControlOverrideSwitch"
+                <MudSwitch @bind-Value="lightingDemo.ManualLEDControlOverrideSwitch"
                            Label="Override"
                            Color="MudBlazor.Color.Warning" />
                 <MudGrid>
                     <MudItem xs="12">
-                        <MudSlider @bind-Value="dualColorLEDLighting.OverrideWhiteIntensity"
+                        <MudSlider @bind-Value="lightingDemo.OverrideWhiteIntensity"
                                    Variant="Variant.Filled"
                                    MudBlazor.Size="Size.large"
                                    Color="MudBlazor.Color.Warning"
                                    Min=0 Max=255
-                                   Disabled="@(!dualColorLEDLighting.ManualLEDControlOverrideSwitch)">
-                            "White LED : @(Math.Round((dualColorLEDLighting.OverrideWhiteIntensity / 255.0M * 100.0M), 1))%"
+                                   Disabled="@(!lightingDemo.ManualLEDControlOverrideSwitch)">
+                            "White LED : @(Math.Round((lightingDemo.OverrideWhiteIntensity / 255.0M * 100.0M), 1))%"
                         </MudSlider>
                     </MudItem>
                     <MudItem xs="12">
-                        <MudSlider @bind-Value="dualColorLEDLighting.OverrideBlueIntensity"
+                        <MudSlider @bind-Value="lightingDemo.OverrideBlueIntensity"
                                    Variant="Variant.Filled"
                                    MudBlazor.Size="Size.large"
                                    Min=0 Max=255
-                                   Disabled="@(!dualColorLEDLighting.ManualLEDControlOverrideSwitch)">
-                            "Blue LED : @(Math.Round((dualColorLEDLighting.OverrideBlueIntensity / 255.0M * 100.0M), 1))%"
+                                   Disabled="@(!lightingDemo.ManualLEDControlOverrideSwitch)">
+                            "Blue LED : @(Math.Round((lightingDemo.OverrideBlueIntensity / 255.0M * 100.0M), 1))%"
                         </MudSlider>
                     </MudItem>
                 </MudGrid>
@@ -48,13 +48,13 @@
         <MudGrid Spacing="10">
             <MudItem xs="6">
                 <MudText Typo="Typo.h6">Adjust Demo Loop Durations seconds</MudText>
-                <MudNumericField @bind-Value="dualColorLEDLighting.DawnTime" Label="Set Dawn Durration" Variant="Variant.Outlined" Min="5" Max="30" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.SunriseTime" Label="Set Sunrise Duration" Variant="Variant.Outlined" Min="2" Max="30" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.HighNoon" Label="Set High Noon Duration" Variant="Variant.Outlined" Min="2" Max="30" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.SunsetTime" Label="Set Sunset Duration" Variant="Variant.Outlined" Min="2" Max="30" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.DuskTime" Label="Set Dusk Duration" Variant="Variant.Outlined" Min="5" Max="30" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.NightTime" Label="Set Night Duration" Variant="Variant.Outlined" />
-                <MudNumericField @bind-Value="dualColorLEDLighting.BlueOnlyMaxIntensity" Label="Set Dusk & Dawn Max Intensity" Variant="Variant.Outlined" Step=".5M" />
+                <MudNumericField @bind-Value="lightingDemo.DawnTime" Label="Set Dawn Durration" Variant="Variant.Outlined" Min="5" Max="30" />
+                <MudNumericField @bind-Value="lightingDemo.SunriseTime" Label="Set Sunrise Duration" Variant="Variant.Outlined" Min="2" Max="30" />
+                <MudNumericField @bind-Value="lightingDemo.HighNoon" Label="Set High Noon Duration" Variant="Variant.Outlined" Min="2" Max="30" />
+                <MudNumericField @bind-Value="lightingDemo.SunsetTime" Label="Set Sunset Duration" Variant="Variant.Outlined" Min="2" Max="30" />
+                <MudNumericField @bind-Value="lightingDemo.DuskTime" Label="Set Dusk Duration" Variant="Variant.Outlined" Min="5" Max="30" />
+                <MudNumericField @bind-Value="lightingDemo.NightTime" Label="Set Night Duration" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="lightingDemo.BlueOnlyMaxIntensity" Label="Set Dusk & Dawn Max Intensity" Variant="Variant.Outlined" Step=".5M" />
             </MudItem>
 
             <!--  ......................................Current LED Status Progress bars.........................  -->
@@ -65,12 +65,12 @@
                                    Color="MudBlazor.Color.Warning"
                                    Rounded="true" MudBlazor.Size="Size.large"
                                    Style="height:400px ;width:30px;"
-                                   Value="@(dualColorLEDLighting.CurrentWhiteIntensity / 255.0 * 100.0)"
+                                   Value="@(lightingDemo.CurrentWhiteIntensity / 255.0 * 100.0)"
                                    Min="0" Max="100">
                     <MudText Typo="Typo.subtitle1"
                              Color="MudBlazor.Color.Dark"
                              Min="0" Max="100">
-                        <b>@(Math.Round((dualColorLEDLighting.CurrentWhiteIntensity / 255M * 100M), 1))</b>
+                        <b>@(Math.Round((lightingDemo.CurrentWhiteIntensity / 255M * 100M), 1))</b>
                     </MudText>
                 </MudProgressLinear>
             </MudItem>
@@ -81,11 +81,11 @@
                                    Color="MudBlazor.Color.Info"
                                    Rounded="true" MudBlazor.Size="Size.large"
                                    Style="height:400px ;width:30px;"
-                                   Value="@(dualColorLEDLighting.CurrentBlueIntensity / 255.0 * 100.0)"
+                                   Value="@(lightingDemo.CurrentBlueIntensity / 255.0 * 100.0)"
                                    Min="0" Max="100">
                     <MudText Typo="Typo.subtitle1"
                              Color="MudBlazor.Color.Dark">
-                        <b>@(Math.Round((dualColorLEDLighting.CurrentBlueIntensity / 255M * 100M), 1))</b>
+                        <b>@(Math.Round((lightingDemo.CurrentBlueIntensity / 255M * 100M), 1))</b>
                     </MudText>
                 </MudProgressLinear>
             </MudItem>
@@ -103,11 +103,11 @@
     [Parameter]
     public int nodeID { get; set; } = 0;
 
-    DualColorLEDLightingDevice dualColorLEDLighting;
+        BlazorMQTTTestingWASM.SetLightingSchedule lightingDemo;
 
     protected override async Task OnInitializedAsync()
     {
-        this.dualColorLEDLighting = new DualColorLEDLightingDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        this.lightingDemo = new BlazorMQTTTestingWASM.SetLightingSchedule(MqttService, this.systemID, this.basestationID, this.nodeID);
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
@@ -119,4 +119,5 @@
         base.StateHasChanged();
     }
 }
+
 
