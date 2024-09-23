@@ -20,7 +20,7 @@
                 Canopy Humidity Alarms are @(_EditCanopyHumAlarm ? "On" : "Off")
 
                 <span>
-                    @if (_EditCanopyHumAlarm == true)
+                    @if (_EditCanopyHumAlarm)
                     {
                         <MudNumericField @bind-Value="tempHum.CanopyHumAlarmLow"
                                          Label="Low Humidity Alarm"
@@ -89,7 +89,7 @@
                 Tank Temperature Alarms are @(_EditTankTempAlarm ? "On" : "Off")
 
                 <span>
-                    @if (_EditTankTempAlarm == true)
+                    @if (_EditTankTempAlarm)
                     {
                         <MudNumericField @bind-Value="tempHum.TankTempAlarmLow"
                                          Label="Low Humidity Alarm"
@@ -117,7 +117,7 @@
                                      title="@(_EditSumpTempAlarm ? "On" : "Off")" />
                 Canopy Temperature Alarms are @(_EditSumpTempAlarm ? "On" : "Off")
 
-                @if (_EditSumpTempAlarm == true)
+                @if (_EditSumpTempAlarm)
                 {
                     <MudNumericField @bind-Value="tempHum.SumpTempAlarmLow"
                                      Label="Low Temperature Alarm"
