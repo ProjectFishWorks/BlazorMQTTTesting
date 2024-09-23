@@ -14,7 +14,7 @@
     <MudCardContent>
         <MudGrid>
             <MudItem xs="3">
-                @if (_Edit)
+                @if (_EditIcon)
                 {
                     <MudTextField @bind-Value="@Title"></MudTextField>
                     <!--
@@ -23,7 +23,7 @@
                     <MudTextField @bind-Value="TextValue" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
                     -->
                 }
-                @if (!_Edit)
+                @if (!_EditIcon)
                 {
                     <MudText Typo="Typo.h6">
                         @Title
@@ -32,13 +32,13 @@
             </MudItem>
             <MudItem xs="3">
                 <MudText>
-                    <MudToggleIconButton @bind-Toggled="_Edit"
+                    <MudToggleIconButton @bind-Toggled="_EditIcon"
                                          Icon="@Icons.Material.Filled.Edit"
                                          Color="MudBlazor.Color.Primary"
                                          ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                          ToggledColor="MudBlazor.Color.Warning"
-                                         title="@(_Edit ? "On" : "Off")" />
-                    <span>Edit is @(_Edit ? "On" : "Off")</span>
+                                         title="@(_EditIcon ? "On" : "Off")" />
+                    Edit is @(_EditIcon ? "On" : "Off")
                 </MudText>
             </MudItem>
         </MudGrid>
@@ -50,7 +50,7 @@
 
 @code {
 
-    public bool _Edit { get; set; }
+    public bool _EditIcon { get; set; }
 
     public string Title { get; set; } = "Edit Title";
 }

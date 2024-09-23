@@ -2,78 +2,144 @@
 @using MQTTnet
 @inject MQTTnet.ClientLib.MqttService MqttService
 
-<MudCard Outlined>
-    <MudCardHeader>
-        <MudGrid>
-            <MudText Typo="Typo.h6" Align="MudBlazor.Align.Center">Canopy Temerature and Humidity</MudText>
-        </MudGrid>
-    </MudCardHeader>
+
+<MudCard Outlined="true">
     <MudCardContent>
-        <MudGrid>
+        <MudGrid Spacing="10">
             <MudItem xs="6">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Canopy Humidity:    @tempHum.CanopyHum %</MudText>
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Canopy Temperature: @tempHum.CanopyTemp °</MudText>
+                <MudText Typo="Typo.h6"
+                         Align="MudBlazor.Align.Left">
+                    Canopy Humidity: @tempHum.CanopyHum %
+                </MudText>
+                <MudToggleIconButton @bind-Toggled="_EditCanopyHumAlarm"
+                                     Icon="@Icons.Material.Filled.AlarmOff"
+                                     Color="MudBlazor.Color.Warning"
+                                     ToggledIcon="@Icons.Material.Filled.AlarmOn"
+                                     ToggledColor="MudBlazor.Color.Tertiary"
+                                     title="@(_EditCanopyHumAlarm ? "On" : "Off")" />
+                Canopy Humidity Alarms are @(_EditCanopyHumAlarm ? "On" : "Off")
+
+                <span>
+                    @if (_EditCanopyHumAlarm == true)
+                    {
+                        <MudNumericField @bind-Value="tempHum.CanopyHumAlarmLow"
+                                         Label="Low Humidity Alarm"
+                                         Variant="Variant.Outlined"
+                                         Min="0" Max="100" />
+
+                        <MudNumericField @bind-Value="tempHum.CanopyHumAlarmHigh"
+                                         Label="High Humidity Alarm"
+                                         Variant="Variant.Outlined"
+                                         Min="0" Max="100" />
+                    }
+                </span>
+            </MudItem>
+
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6"
+                         Align="MudBlazor.Align.Left">
+                    Canopy Temperature: @tempHum.CanopyTemp °c
+                </MudText>
+                <MudToggleIconButton @bind-Toggled="_EditCanopyTempAlarm"
+                                     Icon="@Icons.Material.Filled.AlarmOff"
+                                     Color="MudBlazor.Color.Warning"
+                                     ToggledIcon="@Icons.Material.Filled.AlarmOn"
+                                     ToggledColor="MudBlazor.Color.Tertiary"
+                                     title="@(_EditCanopyTempAlarm ? "On" : "Off")" />
+                Canopy Temperature Alarms are @(_EditCanopyTempAlarm ? "On" : "Off")
+
+                @if (_EditCanopyTempAlarm)
+                {
+                    <MudNumericField @bind-Value="tempHum.CanopyTempAlarmLow"
+                                     Label="Low Temperature Alarm"
+                                     Variant="Variant.Outlined"
+                                     Min="0" Max="100" />
+
+                    <MudNumericField @bind-Value="tempHum.CanopyTempAlarmHigh"
+                                     Label="High Temperature Alarm"
+                                     Variant="Variant.Outlined"
+                                     Min="15" Max="30" />
+                }
             </MudItem>
         </MudGrid>
     </MudCardContent>
 </MudCard>
 
-
-<MudCard Outlined>
-    <MudCardHeader>
-        <MudGrid Justify="Justify.Center">
-            <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">Tank Temperature</MudText>
-        </MudGrid>
-    </MudCardHeader>
-    <MudCardContent>
-        <MudGrid>
-            <MudItem xs="6">
-                <MudText Typo="Typo.h2" Align="MudBlazor.Align.Center">@tempHum.CanopyHum %</MudText>
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">RTD: @tempHum.CanopyTemp °</MudText>
-            </MudItem>
-        </MudGrid>
-    </MudCardContent>
-</MudCard>
-
-
-<!--
-            <MudItem xs="6">
-                <MudText Typo="Typo.h2" Align="MudBlazor.Align.Center">@tempHum. %</MudText>
-            </MudItem>
-        </MudGrid>
-        <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Pressure: @(tempHum.Pressure) kPa</MudText>
-        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">Wind</MudText>
-        <MudGrid>
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Speed: @(tempHum.WindSpeedAverage) kph</MudText>
-            </MudItem>
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Guest: @(tempHum.WindSpeedMax) kph</MudText>
-            </MudItem>
-
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Direction: @(tempHum.WindDirectionMax) °</MudText>
-            </MudItem>
-        </MudGrid>
-        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">Rain</MudText>
-        <MudGrid>
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last 10mins: @(tempHum.RainfallLast10Minutes)mm</MudText>
-            </MudItem>
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last Hour: @(tempHum.RainfallLastHour)mm</MudText>
-            </MudItem>
-            <MudItem xs="4">
-                <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last 24 Hours: @(tempHum.RainfallLastDay)mm</MudText>
-            </MudItem>
-        </MudGrid>
-
-        <MudText Typo="Typo.h6" Align="MudBlazor.Align.Left">Last Updated: @tempHum.LastUpdatedTime</MudText>
-
-    </MudCardContent>
-</MudCard>
-                        -->
 @code {
+
+    public bool _EditCanopyHumAlarm { get; set; }
+
+    public bool _EditCanopyTempAlarm { get; set; }
+}
+
+<MudCard Outlined="true">
+    <MudCardContent>
+        <MudGrid Spacing="10">
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6"
+                         Align="MudBlazor.Align.Left">
+                    Tank Temperature: @tempHum.TankTemp %
+                </MudText>
+                <MudToggleIconButton @bind-Toggled="_EditTankTempAlarm"
+                                     Icon="@Icons.Material.Filled.AlarmOff"
+                                     Color="MudBlazor.Color.Warning"
+                                     ToggledIcon="@Icons.Material.Filled.AlarmOn"
+                                     ToggledColor="MudBlazor.Color.Tertiary"
+                                     title="@(_EditTankTempAlarm ? "On" : "Off")" />
+                Tank Temperature Alarms are @(_EditTankTempAlarm ? "On" : "Off")
+
+                <span>
+                    @if (_EditTankTempAlarm == true)
+                    {
+                        <MudNumericField @bind-Value="tempHum.TankTempAlarmLow"
+                                         Label="Low Humidity Alarm"
+                                         Variant="Variant.Outlined"
+                                         Min="15" Max="30" />
+
+                        <MudNumericField @bind-Value="tempHum.TankTempAlarmHigh"
+                                         Label="High Humidity Alarm"
+                                         Variant="Variant.Outlined"
+                                         Min="15" Max="30" />
+                    }
+                </span>
+            </MudItem>
+
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6"
+                         Align="MudBlazor.Align.Left">
+                    Sump Temperature: @tempHum.SumpTemp °c
+                </MudText>
+                <MudToggleIconButton @bind-Toggled="_EditSumpTempAlarm"
+                                     Icon="@Icons.Material.Filled.AlarmOff"
+                                     Color="MudBlazor.Color.Warning"
+                                     ToggledIcon="@Icons.Material.Filled.AlarmOn"
+                                     ToggledColor="MudBlazor.Color.Tertiary"
+                                     title="@(_EditSumpTempAlarm ? "On" : "Off")" />
+                Canopy Temperature Alarms are @(_EditSumpTempAlarm ? "On" : "Off")
+
+                @if (_EditSumpTempAlarm == true)
+                {
+                    <MudNumericField @bind-Value="tempHum.SumpTempAlarmLow"
+                                     Label="Low Temperature Alarm"
+                                     Variant="Variant.Outlined"
+                                     Min="0" Max="100" />
+
+                    <MudNumericField @bind-Value="tempHum.SumpTempAlarmHigh"
+                                     Label="High Temperature Alarm"
+                                     Variant="Variant.Outlined"
+                                     Min="15" Max="30" />
+                }
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    public bool _EditTankTempAlarm { get; set; }
+
+    public bool _EditSumpTempAlarm { get; set; }
+
     [Parameter]
     public int systemID { get; set; } = 0;
     [Parameter]
@@ -99,7 +165,4 @@
     {
         base.StateHasChanged();
     }
-
-
-
-                        }
+}
