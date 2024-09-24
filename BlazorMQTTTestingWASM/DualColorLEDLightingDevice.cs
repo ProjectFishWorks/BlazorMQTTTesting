@@ -4,8 +4,6 @@ namespace BlazorMQTTTestingWASM
 {
     public class DualColorLEDLightingDevice : Device
     {
-        private int _WhiteLED = 0;
-        private int _BlueLED = 0;
         private int _DawnTime = 0;
         private int _DuskTime = 0;
         private int _SunriseTime = 0;
@@ -19,31 +17,6 @@ namespace BlazorMQTTTestingWASM
         private int _OverrideWhiteIntensity = 0;
         private int _OverrideBlueIntensity = 0;
 
-        public int WhiteLED
-        {
-            get
-            {
-                return _WhiteLED;
-            }
-            set
-            {
-                _WhiteLED = value;
-                sendMessageData(nodeID, 2560, (ulong)_WhiteLED);
-            }
-        }
-
-        public int BlueLED
-        {
-            get
-            {
-                return _BlueLED;
-            }
-            set
-            {
-                _BlueLED = value;
-                sendMessageData(nodeID, 2561, (ulong)_BlueLED);
-            }
-        }
         public int DawnTime
         {
             get

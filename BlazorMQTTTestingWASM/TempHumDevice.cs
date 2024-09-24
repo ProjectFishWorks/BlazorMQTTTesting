@@ -2,8 +2,8 @@
 {
     public class TempHumDevice : Device
     {
-        private int nodeID;
-        private float _CanopyTemp = 0;
+        private int nodeID;                         // 0x1000
+        private float _CanopyTemp = 0;              //
         private float _CanopyHum = 0;
         private float _TankTemp = 0;
         private float _SumpTemp = 0;
