@@ -4,6 +4,7 @@ namespace BlazorMQTTTestingWASM
 {
     public class DualColorLEDLightingDevice : Device
     {
+        private int nodeID;
         private int _DawnTime = 0;
         private int _DuskTime = 0;
         private int _SunriseTime = 0;
@@ -16,6 +17,11 @@ namespace BlazorMQTTTestingWASM
         private bool _ManualLEDControlOverrideSwitch;
         private int _OverrideWhiteIntensity = 0;
         private int _OverrideBlueIntensity = 0;
+        public DualColorLEDLightingDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID, int basestationID, int nodeID) : base(mqttService, systemID, basestationID)
+        {
+            this.nodeID = nodeID;
+        }
+
 
         public int DawnTime
         {
@@ -162,12 +168,6 @@ namespace BlazorMQTTTestingWASM
                 _OverrideBlueIntensity = value;
                 sendMessageData(nodeID, 2573, (ulong)_OverrideBlueIntensity);
             }
-        }
-
-        private int nodeID;
-        public DualColorLEDLightingDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID, int basestationID, int nodeID) : base(mqttService, systemID, basestationID)
-        {
-            this.nodeID = nodeID;
         }
 
     }

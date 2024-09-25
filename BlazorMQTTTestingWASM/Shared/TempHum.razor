@@ -11,16 +11,16 @@
                          Align="MudBlazor.Align.Left">
                     Canopy Humidity: @tempHum.CanopyHum %
                 </MudText>
-                <MudToggleIconButton @bind-Toggled="_EditCanopyHumAlarm"
+                <MudToggleIconButton @bind-Toggled="_TurnCanopyHumAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
                                      Color="MudBlazor.Color.Warning"
                                      ToggledIcon="@Icons.Material.Filled.AlarmOn"
                                      ToggledColor="MudBlazor.Color.Tertiary"
-                                     title="@(_EditCanopyHumAlarm ? "On" : "Off")" />
-                Canopy Humidity Alarms are @(_EditCanopyHumAlarm ? "On" : "Off")
+                                     title="@(_TurnCanopyHumAlarmOnOff ? "On" : "Off")" />
+                Canopy Humidity Alarms are @(_TurnCanopyHumAlarmOnOff ? "On" : "Off")
 
                 <span>
-                    @if (_EditCanopyHumAlarm)
+                    @if (_TurnCanopyHumAlarmOnOff)
                     {
                         <MudNumericField @bind-Value="tempHum.CanopyHumAlarmLow"
                                          Label="Low Humidity Alarm"
@@ -40,15 +40,15 @@
                          Align="MudBlazor.Align.Left">
                     Canopy Temperature: @tempHum.CanopyTemp °c
                 </MudText>
-                <MudToggleIconButton @bind-Toggled="_EditCanopyTempAlarm"
+                <MudToggleIconButton @bind-Toggled="_TurnCanopyTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
                                      Color="MudBlazor.Color.Warning"
                                      ToggledIcon="@Icons.Material.Filled.AlarmOn"
                                      ToggledColor="MudBlazor.Color.Tertiary"
-                                     title="@(_EditCanopyTempAlarm ? "On" : "Off")" />
-                Canopy Temperature Alarms are @(_EditCanopyTempAlarm ? "On" : "Off")
+                                     title="@(_TurnCanopyTempAlarmOnOff ? "On" : "Off")" />
+                Canopy Temperature Alarms are @(_TurnCanopyTempAlarmOnOff ? "On" : "Off")
 
-                @if (_EditCanopyTempAlarm)
+                @if (_TurnCanopyTempAlarmOnOff)
                 {
                     <MudNumericField @bind-Value="tempHum.CanopyTempAlarmLow"
                                      Label="Low Temperature Alarm"
@@ -67,9 +67,9 @@
 
 @code {
 
-    public bool _EditCanopyHumAlarm { get; set; }
+    public bool _TurnCanopyHumAlarmOnOff { get; set; }
 
-    public bool _EditCanopyTempAlarm { get; set; }
+    public bool _TurnCanopyTempAlarmOnOff { get; set; }
 }
 
 <MudCard Outlined="true">
@@ -80,16 +80,16 @@
                          Align="MudBlazor.Align.Left">
                     Tank Temperature: @tempHum.TankTemp %
                 </MudText>
-                <MudToggleIconButton @bind-Toggled="_EditTankTempAlarm"
+                <MudToggleIconButton @bind-Toggled="_TurnTankTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
                                      Color="MudBlazor.Color.Warning"
                                      ToggledIcon="@Icons.Material.Filled.AlarmOn"
                                      ToggledColor="MudBlazor.Color.Tertiary"
-                                     title="@(_EditTankTempAlarm ? "On" : "Off")" />
-                Tank Temperature Alarms are @(_EditTankTempAlarm ? "On" : "Off")
+                                     title="@(_TurnTankTempAlarmOnOff ? "On" : "Off")" />
+                Tank Temperature Alarms are @(_TurnTankTempAlarmOnOff ? "On" : "Off")
 
                 <span>
-                    @if (_EditTankTempAlarm)
+                    @if (_TurnTankTempAlarmOnOff)
                     {
                         <MudNumericField @bind-Value="tempHum.TankTempAlarmLow"
                                          Label="Low Humidity Alarm"
@@ -109,15 +109,15 @@
                          Align="MudBlazor.Align.Left">
                     Sump Temperature: @tempHum.SumpTemp °c
                 </MudText>
-                <MudToggleIconButton @bind-Toggled="_EditSumpTempAlarm"
+                <MudToggleIconButton @bind-Toggled="_TurnSumpTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
                                      Color="MudBlazor.Color.Warning"
                                      ToggledIcon="@Icons.Material.Filled.AlarmOn"
                                      ToggledColor="MudBlazor.Color.Tertiary"
-                                     title="@(_EditSumpTempAlarm ? "On" : "Off")" />
-                Canopy Temperature Alarms are @(_EditSumpTempAlarm ? "On" : "Off")
+                                     title="@(_TurnSumpTempAlarmOnOff ? "On" : "Off")" />
+                Canopy Temperature Alarms are @(_TurnSumpTempAlarmOnOff ? "On" : "Off")
 
-                @if (_EditSumpTempAlarm)
+                @if (_TurnSumpTempAlarmOnOff)
                 {
                     <MudNumericField @bind-Value="tempHum.SumpTempAlarmLow"
                                      Label="Low Temperature Alarm"
@@ -136,9 +136,9 @@
 
 @code {
 
-    public bool _EditTankTempAlarm { get; set; }
+    public bool _TurnTankTempAlarmOnOff { get; set; }
 
-    public bool _EditSumpTempAlarm { get; set; }
+    public bool _TurnSumpTempAlarmOnOff { get; set; }
 
     [Parameter]
     public int systemID { get; set; } = 0;
