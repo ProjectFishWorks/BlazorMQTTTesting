@@ -50,6 +50,19 @@
              </MudItem>
         </MudGrid>
     </MudCardContent>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Button History</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudDataGrid Items="@testerHat.historyTest" Filterable="false" SortMode="@SortMode.Multiple" Groupable="false">
+                <Columns>
+                    <PropertyColumn Property="x => x.Key" Title="Time" />
+                    <PropertyColumn Property="x => x.Value" Title="Data" />
+                </Columns>
+            </MudDataGrid>
+        </MudCardContent>
+    </MudCard>
 </MudCard>
 
 

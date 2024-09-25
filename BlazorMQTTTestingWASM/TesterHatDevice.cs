@@ -8,6 +8,8 @@
         private int _LED3 = 0;
         private int _LED4 = 0;
 
+        private Dictionary<ulong, ulong> _historicalData;
+
         private List<int> _LEDValues = new List<int> { 0,0,0,0 };
 
         public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID) : base(mqttService, systemID, basestationID)
@@ -98,6 +100,15 @@
                     }
                 }
                 return values;
+            }
+        }
+
+        public Dictionary<ulong, ulong>? historyTest
+        {
+            get
+            {
+
+               return getHistoricalData(nodeID, 45060, 1);
             }
         }
 
