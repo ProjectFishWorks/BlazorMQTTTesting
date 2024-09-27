@@ -55,7 +55,21 @@
             <MudText Typo="Typo.h5">Button History</MudText>
         </MudCardHeader>
         <MudCardContent>
-            <MudChart ChartType="MudBlazor.ChartType.Line" ChartSeries="@chartData.Series" XAxisLabels="@chartData.XAxisLabels" />
+            <ApexChart TItem="HistoryChartData"
+                       Title="Pot History"
+                       Options="@options">
+
+                <ApexPointSeries TItem="HistoryChartData"
+                                 Items="chartData"
+                                 Name="Value"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.time)"
+                                 YValue="@(e => e.data)"
+                                 
+                                 OrderBy="e=>e.X" 
+                                 />
+
+            </ApexChart>
         </MudCardContent>
     </MudCard>
 </MudCard>
@@ -70,9 +84,11 @@
         [Parameter]
         public int nodeID { get; set; } = 0;
 
-    public HistoryChartData chartData = new HistoryChartData();
+    public List<HistoryChartData> chartData = new List<HistoryChartData>();
 
     TesterHatDevice testerHat;
+
+    private ApexChartOptions<HistoryChartData> options;
 
     protected override async Task OnInitializedAsync(){
         
@@ -87,7 +103,33 @@
     {
         this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
         chartData = testerHat.PotentiometerHistoryChartData;
-        base.StateHasChanged();
+        
+        options = new ApexChartOptions<HistoryChartData>
+        {
+            Chart = new Chart
+            {
+                Type = ApexCharts.ChartType.Line,
+                Toolbar = new Toolbar
+                {
+                    Show = true
+                }
+            }
+        };
+        options.Xaxis = new XAxis
+        {
+            TickAmount = 10,
+            Title = new AxisTitle
+            {
+                OffsetY = 5,
+                Text = "Time",
+                Style = new AxisTitleStyle { FontSize = "14px", Color = "lightgrey" }
+            },
+            AxisBorder = new AxisBorder
+            {
+                Height = 2
+            }
+        };
+
     }
     
 
