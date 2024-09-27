@@ -50,27 +50,88 @@
              </MudItem>
         </MudGrid>
     </MudCardContent>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Button History</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <ApexChart TItem="HistoryChartData"
+                       Title="Pot History"
+                       Options="@options">
+
+                <ApexPointSeries TItem="HistoryChartData"
+                                 Items="chartData"
+                                 Name="Value"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.time)"
+                                 YValue="@(e => e.data)"
+                                 
+                                 OrderBy="e=>e.X" 
+                                 />
+
+            </ApexChart>
+        </MudCardContent>
+    </MudCard>
 </MudCard>
 
 
 
 @code {
-    [Parameter]
-    public int systemID { get; set; } = 0;
-    [Parameter]
-    public int basestationID { get; set; } = 0;
-    [Parameter]
-    public int nodeID { get; set; } = 0;
+        [Parameter]
+        public int systemID { get; set; } = 0;
+        [Parameter]
+        public int basestationID { get; set; } = 0;
+        [Parameter]
+        public int nodeID { get; set; } = 0;
+
+    public List<HistoryChartData> chartData = new List<HistoryChartData>();
 
     TesterHatDevice testerHat;
 
+    private ApexChartOptions<HistoryChartData> options;
+
     protected override async Task OnInitializedAsync(){
-        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
+        //chartData = testerHat.PotentiometerHistoryChartData;
     }
+
+    protected override void OnInitialized()
+    {
+        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        chartData = testerHat.PotentiometerHistoryChartData;
+        
+        options = new ApexChartOptions<HistoryChartData>
+        {
+            Chart = new Chart
+            {
+                Type = ApexCharts.ChartType.Line,
+                Toolbar = new Toolbar
+                {
+                    Show = true
+                }
+            }
+        };
+        options.Xaxis = new XAxis
+        {
+            TickAmount = 10,
+            Title = new AxisTitle
+            {
+                OffsetY = 5,
+                Text = "Time",
+                Style = new AxisTitleStyle { FontSize = "14px", Color = "lightgrey" }
+            },
+            AxisBorder = new AxisBorder
+            {
+                Height = 2
+            }
+        };
+
+    }
+    
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
