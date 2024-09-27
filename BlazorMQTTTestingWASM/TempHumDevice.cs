@@ -3,33 +3,36 @@
     public class TempHumDevice : Device
     {
         private int nodeID;                         // 0x1000
-        private float _CanopyTemp = 0;              //
-        private float _CanopyHum = 0;
-        private float _TankTemp = 0;
-        private float _SumpTemp = 0;
+        private float? _CanopyTemp = 0;              //
+        private float? _CanopyHum = 0;
+        private float? _TankTemp = 0;
+        private float? _SumpTemp = 0;
         private bool _CanopyTempAlarmOnOff = false;
-        private float _CanopyTempAlarmLow = 0;
-        private float _CanopyTempAlarmHigh = 0;
+        private float? _CanopyTempAlarmLow = 0;
+        private float? _CanopyTempAlarmHigh = 0;
         private bool _CanopyHumAlarmOnOff = false;
-        private float _CanopyHumAlarmLow = 0;
-        private float _CanopyHumAlarmHigh = 0;
+        private float? _CanopyHumAlarmLow = 0;
+        private float? _CanopyHumAlarmHigh = 0;
         private bool _TankTempAlarmOnOff = false;
-        private float _TankTempAlarmLow = 0;
-        private float _TankTempAlarmHigh = 0;
+        private float? _TankTempAlarmLow = 0;
+        private float? _TankTempAlarmHigh = 0;
         private bool _SumpTempAlarmOnOff = false;
-        private float _SumpTempAlarmLow = 0;
-        private float _SumpTempAlarmHigh = 0;
+        private float? _SumpTempAlarmLow = 0;
+        private float? _SumpTempAlarmHigh = 0;
 
 
         public TempHumDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID) : base(mqttService, systemID, basestationID)
         {
             this.nodeID = nodeID;
+            Console.Write("Node ID");
+            Console.WriteLine(nodeID);
         }
 
-        public float CanopyTemp
+        public float? CanopyTemp
         {
             get
             {
+                _CanopyTemp = getMessagePayload(nodeID, 2560).dataFloat;
                 return _CanopyTemp;
             }
             set
@@ -43,16 +46,17 @@
         {
             get
             {
+           
                 return _CanopyTempAlarmOnOff;
             }
             set
             {
                 _CanopyTempAlarmOnOff = value;
-                sendMessageData(nodeID, 2564, (ulong)(_CanopyTempAlarmOnOff ? 1 : 0));
+                sendMessageData(nodeID, 2561, (ulong)(_CanopyTempAlarmOnOff ? 1 : 0));
             }
         }
 
-        public float CanopyTempAlarmLow
+        public float? CanopyTempAlarmLow
         {
             get
             {
@@ -61,11 +65,11 @@
             set
             {
                 _CanopyTempAlarmLow = value;
-                sendMessageData(nodeID, 2565, (ulong)_CanopyTempAlarmLow);
+                sendMessageData(nodeID, 2562, (ulong)_CanopyTempAlarmLow);
             }
         }
 
-        public float CanopyTempAlarmHigh
+        public float? CanopyTempAlarmHigh
         {
             get
             {
@@ -74,20 +78,21 @@
             set
             {
                 _CanopyTempAlarmHigh = value;
-                sendMessageData(nodeID, 2566, (ulong)_CanopyTempAlarmHigh);
+                sendMessageData(nodeID, 2563, (ulong)_CanopyTempAlarmHigh);
             }
         }
 
-        public float CanopyHum
+        public float? CanopyHum
         {
             get
             {
+                _CanopyHum = getMessagePayload(nodeID, 2564).dataFloat;
                 return _CanopyHum;
             }
             set
             {
                 _CanopyHum = value;
-                sendMessageData(nodeID, 2561, (ulong)_CanopyHum);
+                sendMessageData(nodeID, 2564, (ulong)_CanopyHum);
             }
         }
 
@@ -100,11 +105,11 @@
             set
             {
                 _CanopyHumAlarmOnOff = value;
-                sendMessageData(nodeID, 2567, (ulong)(_CanopyHumAlarmOnOff ? 1 : 0));
+                sendMessageData(nodeID, 2565, (ulong)(_CanopyHumAlarmOnOff ? 1 : 0));
             }
         }
 
-        public float CanopyHumAlarmLow
+        public float? CanopyHumAlarmLow
         {
             get
             {
@@ -113,11 +118,11 @@
             set
             {
                 _CanopyHumAlarmLow = value;
-                sendMessageData(nodeID, 2568, (ulong)_CanopyHumAlarmLow);
+                sendMessageData(nodeID, 2566, (ulong)_CanopyHumAlarmLow);
             }
         }
 
-        public float CanopyHumAlarmHigh
+        public float? CanopyHumAlarmHigh
         {
             get
             {
@@ -126,20 +131,21 @@
             set
             {
                 _CanopyHumAlarmHigh = value;
-                sendMessageData(nodeID, 2569, (ulong)_CanopyHumAlarmHigh);
+                sendMessageData(nodeID, 2567, (ulong)_CanopyHumAlarmHigh);
             }
         }
 
-        public float TankTemp
+        public float? TankTemp
         {
             get
             {
+                _TankTemp = getMessagePayload(nodeID, 2568).dataFloat;
                 return _TankTemp;
             }
             set
             {
                 _TankTemp = value;
-                sendMessageData(nodeID, 2562, (ulong)_TankTemp);
+                sendMessageData(nodeID, 2568, (ulong)_TankTemp);
             }
         }
 
@@ -156,7 +162,7 @@
             }
         }
 
-        public float TankTempAlarmLow
+        public float? TankTempAlarmLow
         {
             get
             {
@@ -169,7 +175,7 @@
             }
         }
 
-        public float TankTempAlarmHigh
+        public float? TankTempAlarmHigh
         {
             get
             {
@@ -183,17 +189,17 @@
         }
 
 
-
-        public float SumpTemp
+        public float? SumpTemp
         {
             get
             {
+                _SumpTemp = getMessagePayload(nodeID, 2572).dataFloat;
                 return _SumpTemp;
             }
             set
             {
                 _SumpTemp = value;
-                sendMessageData(nodeID, 2563, (ulong)_SumpTemp);
+                sendMessageData(nodeID, 2572, (ulong)_SumpTemp);
             }
         }
 
@@ -206,11 +212,11 @@
             set
             {
                 _SumpTempAlarmOnOff = value;
-                sendMessageData(nodeID, 2572, (ulong)(_SumpTempAlarmOnOff ? 1 : 0));
+                sendMessageData(nodeID, 2573, (ulong)(_SumpTempAlarmOnOff ? 1 : 0));
             }
         }
 
-        public float SumpTempAlarmLow
+        public float? SumpTempAlarmLow
         {
             get
             {
@@ -219,11 +225,11 @@
             set
             {
                 _SumpTempAlarmLow = value;
-                sendMessageData(nodeID, 2573, (ulong)_SumpTempAlarmLow);
+                sendMessageData(nodeID, 2574, (ulong)_SumpTempAlarmLow);
             }
         }
 
-        public float SumpTempAlarmHigh
+        public float? SumpTempAlarmHigh
         {
             get
             {
@@ -232,7 +238,7 @@
             set
             {
                 _SumpTempAlarmHigh = value;
-                sendMessageData(nodeID, 2574, (ulong)_SumpTempAlarmHigh);
+                sendMessageData(nodeID, 2575, (ulong)_SumpTempAlarmHigh);
             }
         }
     }

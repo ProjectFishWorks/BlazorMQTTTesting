@@ -12,16 +12,18 @@
 
 <MudCard Outlined=true>
     <MudCardContent>
-        <MudGrid>
-            <MudItem xs="3">
+            <MudItem xs="6">
                 @if (_EditIcon)
                 {
-                    <MudTextField @bind-Value="@Title"></MudTextField>
                     <!--
                     <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
                     <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
                     <MudTextField @bind-Value="TextValue" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                   
+
+                    
                     -->
+
                 }
                 @if (!_EditIcon)
                 {
@@ -38,10 +40,34 @@
                                          ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                          ToggledColor="MudBlazor.Color.Warning"
                                          title="@(_EditIcon ? "On" : "Off")" />
-                    Edit is @(_EditIcon ? "On" : "Off")
+                    Edit is testing @(_EditIcon ? "On" : "Off")
                 </MudText>
+                <MudDivider>
+                    <MudItem>
+                        <MudChip T="string">Default</MudChip>
+                        <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
+
+                    <!-- </L>
+                    <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
+                        <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
+                        <MudChip T="string" Color="MudBlazor.Color.Info">Info</MudChip>
+                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
+                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
+                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
+                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>
+                        <MudDivider />
+                        <MudChip T="string" Disabled="true">Default</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Primary">Primary</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Secondary">Secondary</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Info">Info</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
+                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
+                    </MudItem>
+                </MudDivider>
             </MudItem>
-        </MudGrid>
         <MudLink Href="/SetLightingSchedule">
             Lighting-Demo Settings
         </MudLink>
