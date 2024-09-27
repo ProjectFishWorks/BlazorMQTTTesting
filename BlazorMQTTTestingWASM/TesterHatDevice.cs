@@ -1,4 +1,6 @@
-﻿namespace BlazorMQTTTestingWASM.Models
+﻿using MudBlazor;
+
+namespace BlazorMQTTTestingWASM.Models
 {
     public class TesterHatDevice : Device
     {
@@ -7,8 +9,6 @@
         private int _LED2 = 0;
         private int _LED3 = 0;
         private int _LED4 = 0;
-
-        private Dictionary<ulong, ulong> _historicalData;
 
         private List<int> _LEDValues = new List<int> { 0,0,0,0 };
 
@@ -103,12 +103,26 @@
             }
         }
 
-        public Dictionary<ulong, ulong>? historyTest
+        public HistoryChartData PotentiometerHistoryChartData
         {
             get
             {
 
-               return getHistoricalData(nodeID, 45060, 1);
+                HistoryChartData chartData = new HistoryChartData();
+
+                Dictionary<DateTime, ulong>? data = getHistoricalData(nodeID, 45056, 1);
+                if(data == null)
+                {
+                    return null;
+                }
+
+                chartData.XAxisLabels = Array.ConvertAll(data.Keys.ToArray(), x => x.ToString("HH:mm:ss"));
+                chartData.Series = new List<ChartSeries>()
+                {
+                    new ChartSeries() { Name = "Potentiometer", Data = Array.ConvertAll(data.Values.ToArray(), x => (double)x) }
+                };
+
+                return chartData;
             }
         }
 

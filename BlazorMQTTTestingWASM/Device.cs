@@ -23,7 +23,7 @@ namespace BlazorMQTTTestingWASM.Models
             this.basestationID = basestationID;
         }
 
-        public Dictionary<ulong,ulong>? getHistoricalData(int nodeID, int messageID, int hours)
+        public Dictionary<DateTime,ulong>? getHistoricalData(int nodeID, int messageID, int hours)
         {
 
             MQTTData mQTTData = new MQTTData();
@@ -42,7 +42,7 @@ namespace BlazorMQTTTestingWASM.Models
                 if (mqttService.AllMessages.ContainsKey(responseTopic))
                 {
                     Console.WriteLine("We have history");
-                    Dictionary<ulong, ulong> data = new Dictionary<ulong, ulong>();
+                    Dictionary<DateTime, ulong> data = new Dictionary<DateTime, ulong>();
                     string response = mqttService.AllMessages[responseTopic];
                     MQTTHistoricalData? historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response);
                     var lastHistoryMessageTime = historicalData.history.Max(t => t.time);
@@ -56,9 +56,10 @@ namespace BlazorMQTTTestingWASM.Models
                     {
                         foreach (var item in historicalData.history)
                         {
-                            if(data.ContainsKey(item.time) == false)
+                            DateTime datetime = DateTimeOffset.FromUnixTimeSeconds((long)item.time).LocalDateTime;
+                            if (data.ContainsKey(datetime) == false)
                             {
-                                data.Add(item.time, item.data);
+                                data.Add(datetime, item.data);
                             }
                         }
 
@@ -88,7 +89,7 @@ namespace BlazorMQTTTestingWASM.Models
 
             if(mqttService.AllMessages.ContainsKey(responseTopic))
             {
-                Dictionary<ulong, ulong> data = new Dictionary<ulong, ulong>();
+                Dictionary<DateTime, ulong> data = new Dictionary<DateTime, ulong>();
                 string response = mqttService.AllMessages[responseTopic];
                 MQTTHistoricalData? historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response);
 
@@ -102,7 +103,7 @@ namespace BlazorMQTTTestingWASM.Models
 
                 foreach (var item in historicalData.history)
                 {
-                    data.Add(item.time, item.data);
+                    data.Add(DateTimeOffset.FromUnixTimeSeconds((long)item.time).LocalDateTime, item.data);
                 }
 
                 return data;
