@@ -53,12 +53,16 @@
     <MudCard>
         <MudCardHeader>
             <MudText Typo="Typo.h5">Button History</MudText>
+            <MudIconButton @onclick="onRefreshHistory"
+                           Icon="@Icons.Material.Filled.Refresh" />
         </MudCardHeader>
         <MudCardContent>
-            <ApexChart TItem="HistoryChartData"
-                       Title="Pot History"
-                       Options="@options">
-
+            @if (chartData != null)
+            {
+                <ApexChart TItem="HistoryChartData"
+                Title="Pot History"
+                       Options="@options"
+                        @ref="chart">
                 <ApexPointSeries TItem="HistoryChartData"
                                  Items="chartData"
                                  Name="Value"
@@ -69,7 +73,12 @@
                                  OrderBy="e=>e.X" 
                                  />
 
-            </ApexChart>
+                </ApexChart>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">History Loading...</MudText>
+            }
         </MudCardContent>
     </MudCard>
 </MudCard>
@@ -77,32 +86,50 @@
 
 
 @code {
-        [Parameter]
-        public int systemID { get; set; } = 0;
-        [Parameter]
-        public int basestationID { get; set; } = 0;
-        [Parameter]
-        public int nodeID { get; set; } = 0;
+    [Parameter]
+    public int systemID { get; set; } = 0;
+    [Parameter]
+    public int basestationID { get; set; } = 0;
+    [Parameter]
+    public int nodeID { get; set; } = 0;
 
-    public List<HistoryChartData> chartData = new List<HistoryChartData>();
+    public List<HistoryChartData> chartData = null;
 
     TesterHatDevice testerHat;
 
     private ApexChartOptions<HistoryChartData> options;
 
+    private ApexChart<HistoryChartData> chart;
+
+    private async void onRefreshHistory()
+    {
+        Console.WriteLine("Starting Task...");
+        var task = testerHat.PotentiometerHistoryChartData();
+        await task;
+        task.Wait();
+        chartData = task.Result;
+        await chart?.UpdateSeriesAsync(true);
+        Console.WriteLine("Task completed");
+    }
+
     protected override async Task OnInitializedAsync(){
-        
+
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-        //chartData = testerHat.PotentiometerHistoryChartData;
+
+        Console.WriteLine("Starting Task...");
+        var task = testerHat.PotentiometerHistoryChartData();
+        await task;
+        chartData = task.Result;
+        Console.WriteLine("Task completed");
     }
 
     protected override void OnInitialized()
     {
         this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
-        chartData = testerHat.PotentiometerHistoryChartData;
+        //chartData = testerHat.PotentiometerHistoryChartData;
         
         options = new ApexChartOptions<HistoryChartData>
         {

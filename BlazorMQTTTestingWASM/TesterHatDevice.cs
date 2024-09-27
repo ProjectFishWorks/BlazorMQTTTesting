@@ -103,24 +103,22 @@ namespace BlazorMQTTTestingWASM.Models
             }
         }
 
-        public List<HistoryChartData> PotentiometerHistoryChartData
+        public async Task<List<HistoryChartData>> PotentiometerHistoryChartData()
         {
-            get
-            {
+            Dictionary<DateTime, ulong> ? data;
+            data = await getHistoricalData(nodeID, 45056, 1);
 
-                Dictionary<DateTime, ulong>? data = getHistoricalData(nodeID, 45060, 1);
-                List<HistoryChartData> chartData = new List<HistoryChartData>();
+            List<HistoryChartData> chartData = new List<HistoryChartData>();
                 
-                foreach(KeyValuePair<DateTime, ulong> entry in data)
-                {
-                    HistoryChartData chartDataRow = new HistoryChartData();
-                    chartDataRow.data = entry.Value;
-                    chartDataRow.time = entry.Key;
-                    chartData.Add(chartDataRow);
-                }
-
-                return chartData;
+            foreach(KeyValuePair<DateTime, ulong> entry in data)
+            {
+                HistoryChartData chartDataRow = new HistoryChartData();
+                chartDataRow.data = entry.Value;
+                chartDataRow.time = entry.Key;
+                chartData.Add(chartDataRow);
             }
+
+            return chartData;
         }
 
     }
