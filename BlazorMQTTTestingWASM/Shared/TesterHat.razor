@@ -52,23 +52,28 @@
     </MudCardContent>
     <MudCard>
         <MudCardHeader>
-            <MudText Typo="Typo.h5">Button History</MudText>
+            <MudText Typo="Typo.h5">Potentiometer History</MudText>
             <MudIconButton @onclick="onRefreshHistory"
                            Icon="@Icons.Material.Filled.Refresh" />
-            <MudNumericField @bind-Value="testerHat.HistoryHours" Label="Hours" Min="1" Max="24" />
         </MudCardHeader>
         <MudCardContent>
+            <MudGrid>
+                <MudItem xs="2">
+                    <MudNumericField @bind-Value="testerHat.HistoryHours" Label="Hours" Min="1" Max="24" FullWidth="false" />
+                </MudItem>
+            </MudGrid>
+
             @if (testerHat.PotentiometerHistory != null)
             {
                 <ApexChart TItem="HistoryChartData"
-                    Title="Pot History"
                     Options="@options"
+                    XAxisType="XAxisType.Datetime"
                     @ref="chart">
                     <ApexPointSeries TItem="HistoryChartData"
                                      Items="testerHat.PotentiometerHistory"
                                      Name="Value"
                                      SeriesType="SeriesType.Line"
-                                     XValue="@(e => e.time.ToString("HH:mm:ss"))"
+                                     XValue="@(e => e.time)"
                                      YValue="@(e => e.data)"
                                  
                                      OrderBy="e=>e.X" 
@@ -78,7 +83,13 @@
             }
             else
             {
-                <MudText Typo="Typo.h5">History Loading...</MudText>
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">History Loading</MudText>
+                        <MudProgressLinear Size="MudBlazor.Size.Medium" Color=" MudBlazor.Color.Primary" Indeterminate="true" />
+                    </MudItem>
+                </MudGrid>
+
             }
         </MudCardContent>
     </MudCard>
@@ -118,11 +129,11 @@
 
     protected override async Task OnInitializedAsync(){
 
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
     }
 
     protected override void OnInitialized()
@@ -143,16 +154,43 @@
         };
         options.Xaxis = new XAxis
         {
-            TickAmount = 10,
+            TickAmount = 8,
             Title = new AxisTitle
             {
-                OffsetY = 0,
                 Text = "Time",
             },
-            AxisBorder = new AxisBorder
+            Labels = new XAxisLabels
             {
-                Height = 2
+                DatetimeFormatter = new DatetimeFormatter
+                {
+                    Year = "yyyy",
+                    Month = "MMM 'yy",
+                    Day = "dd MMM",
+                    Hour = "HH:mm"
+                }
+            }
+        };
+        options.Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Title = new AxisTitle
+                {
+                    Text = "Potentiometer Value",
+                },
+            }
+        };
+        options.Grid = new Grid
+        {
+            Show = true,
+            Xaxis = new GridXAxis
+            {
+               Lines = new Lines
+               {
+                   Show = true
+               }
             },
+            StrokeDashArray = 4
         };
 
     }
@@ -160,12 +198,12 @@
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
-
+        base.StateHasChanged();
         if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
         {
+            Console.WriteLine("History Data Received");
             chart.UpdateSeriesAsync(true);
         }
-        base.StateHasChanged();
     }
 
 
