@@ -57,14 +57,14 @@
                            Icon="@Icons.Material.Filled.Refresh" />
         </MudCardHeader>
         <MudCardContent>
-            @if (chartData != null)
+            @if (testerHat.PotentiometerHistory != null)
             {
                 <ApexChart TItem="HistoryChartData"
                 Title="Pot History"
                        Options="@options"
                         @ref="chart">
                 <ApexPointSeries TItem="HistoryChartData"
-                                 Items="chartData"
+                                 Items="testerHat.PotentiometerHistory"
                                  Name="Value"
                                  SeriesType="SeriesType.Line"
                                  XValue="@(e => e.time)"
@@ -95,16 +95,15 @@
 
     public List<HistoryChartData> chartData = null;
 
-    TesterHatDevice testerHat;
-
     private ApexChartOptions<HistoryChartData> options;
 
     private ApexChart<HistoryChartData> chart;
 
+    TesterHatDevice testerHat;
+
     private void onRefreshHistory()
     {
-        chartData = testerHat.PotentiometerHistoryChartData;
-        //chart?.UpdateSeriesAsync(true);
+        testerHat.requestHistoricalData(nodeID, 45056, 1);
     }
 
     protected override async Task OnInitializedAsync(){
@@ -113,13 +112,12 @@
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-        chartData = testerHat.PotentiometerHistoryChartData;
-        //chart?.UpdateSeriesAsync(true);
+        testerHat.requestHistoricalData(nodeID, 45056,1);
     }
 
     protected override void OnInitialized()
     {
-        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
+        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID, this.chart);
         //chartData = testerHat.PotentiometerHistoryChartData;
 
         options = new ApexChartOptions<HistoryChartData>
@@ -153,13 +151,12 @@
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
-        base.StateHasChanged();
+
         if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
         {
-            Console.WriteLine("History Message Received");
-            chartData = testerHat.PotentiometerHistoryChartData;
             chart.UpdateSeriesAsync(true);
         }
+        base.StateHasChanged();
     }
 
 

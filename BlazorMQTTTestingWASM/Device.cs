@@ -23,55 +23,52 @@ namespace BlazorMQTTTestingWASM.Models
             this.basestationID = basestationID;
         }
 
-        public Dictionary<DateTime,ulong>? getHistoricalData(int nodeID, int messageID, int hours)
+        public void requestHistoricalData(int nodeID, int messageID, int hours)
         {
-
-            ulong lastMessageTime = getMessagePayload(nodeID, messageID).time.Value;
+            //ulong lastMessageTime = getMessagePayload(nodeID, messageID).time.Value;
 
             string responseTopic = $"historyOut/{systemID}/{basestationID}/{nodeID}/{messageID}";
 
-            MQTTData? mQTTDataIn = getMessagePayload(nodeID, messageID);
+            //MQTTData? mQTTDataIn = getMessagePayload(nodeID, messageID);
 
-            if (mQTTDataIn != null)
-            {
-                Console.WriteLine("We have a message");
-                lastMessageTime = mQTTDataIn.time.Value;
-                if (mqttService.AllMessages.ContainsKey(responseTopic))
-                {
-                    Console.WriteLine("We have history");
-                    
-                    string response = mqttService.AllMessages[responseTopic];
-                    MQTTHistoricalData? historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response);
-                    if (historicalData.history.Count > 0)
-                    {
-                        var lastHistoryMessageTime = historicalData.history.Max(t => t.time);
+            //if (mQTTDataIn != null)
+            //{
+            //    Console.WriteLine("We have a message");
+            //    lastMessageTime = mQTTDataIn.time.Value;
+            //    if (mqttService.AllMessages.ContainsKey(responseTopic))
+            //    {
+            //        Console.WriteLine("We have history");
 
-                        Console.WriteLine("Last Message Time:");
-                        Console.WriteLine(lastMessageTime);
-                        Console.WriteLine("Last History Message Time:");
-                        Console.WriteLine(lastHistoryMessageTime);
+            //        string response = mqttService.AllMessages[responseTopic];
+            //        MQTTHistoricalData? historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response);
+            //        if (historicalData.history.Count > 0)
+            //        {
+            //            var lastHistoryMessageTime = historicalData.history.Max(t => t.time);
 
-                        if (lastHistoryMessageTime == lastMessageTime)
-                        {
-                            Dictionary<DateTime, ulong> data = new Dictionary<DateTime, ulong>();
-                            foreach (var item in historicalData.history)
-                            {
-                                DateTime datetime = DateTimeOffset.FromUnixTimeSeconds((long)item.time).LocalDateTime;
-                                if (data.ContainsKey(datetime) == false)
-                                {
-                                    data.Add(datetime, item.data);
-                                }
-                            }
+            //            Console.WriteLine("Last Message Time:");
+            //            Console.WriteLine(lastMessageTime);
+            //            Console.WriteLine("Last History Message Time:");
+            //            Console.WriteLine(lastHistoryMessageTime);
 
-                            Console.WriteLine("Returning stored history");
+            //            if (lastHistoryMessageTime == lastMessageTime)
+            //            {
+            //                Dictionary<DateTime, ulong> data = new Dictionary<DateTime, ulong>();
+            //                foreach (var item in historicalData.history)
+            //                {
+            //                    DateTime datetime = DateTimeOffset.FromUnixTimeSeconds((long)item.time).LocalDateTime;
+            //                    if (data.ContainsKey(datetime) == false)
+            //                    {
+            //                        data.Add(datetime, item.data);
+            //                    }
+            //                }
 
-                            return data;
-                        }
-                    }
-                }
-            }
+            //                Console.WriteLine("Returning stored history");
 
-            Console.WriteLine("Send history request");
+            //                return;
+            //            }
+            //        }
+            //    }
+            //}
 
             MQTTData mQTTDataOut = new MQTTData();
             mQTTDataOut.data = (ulong)hours;
@@ -86,18 +83,12 @@ namespace BlazorMQTTTestingWASM.Models
             mqttService.Publish(message);
 
             mqttService.Subscribe(responseTopic);
+        }
 
-            //get current unix time
-            int timeOut = 10; //Seconds
+        public List<HistoryChartData>? getHistoricalData(int nodeID, int messageID, int hours)
+        {
 
-            var currentTime = (ulong)((DateTimeOffset)(System.DateTime.UtcNow)).ToUnixTimeSeconds();
-
-            while (mqttService.AllMessages.ContainsKey(responseTopic) == false && (((DateTimeOffset)(System.DateTime.UtcNow)).ToUnixTimeSeconds() + timeOut) > ((DateTimeOffset)(System.DateTime.UtcNow)).ToUnixTimeSeconds())
-            {
-                Task.Delay(10);
-            }
-
-            Console.WriteLine("History received");
+            string responseTopic = $"historyOut/{systemID}/{basestationID}/{nodeID}/{messageID}";
 
             if(mqttService.AllMessages.ContainsKey(responseTopic))
             {
@@ -119,16 +110,18 @@ namespace BlazorMQTTTestingWASM.Models
                     Console.WriteLine("Historical Data is null");
                     return null;
                 }
-                Console.WriteLine(historicalData.messageID);
 
-                foreach (var item in historicalData.history)
+                List<HistoryChartData> chartData = new List<HistoryChartData>();
+
+                foreach (var entry in historicalData.history)
                 {
-                    data.Add(DateTimeOffset.FromUnixTimeSeconds((long)item.time).LocalDateTime, item.data);
+                    HistoryChartData chartDataRow = new HistoryChartData();
+                    chartDataRow.data = entry.data;
+                    chartDataRow.time = DateTimeOffset.FromUnixTimeSeconds((long)entry.time).LocalDateTime;
+                    chartData.Add(chartDataRow);
                 }
 
-                Console.WriteLine("Return history data");
-
-                return data;
+                return chartData;
             }
             else
             {
