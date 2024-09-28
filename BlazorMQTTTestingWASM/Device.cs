@@ -94,24 +94,18 @@ namespace BlazorMQTTTestingWASM.Models
 
                 var responses = mqttService.AllMessages.Where(kvp => kvp.Key.StartsWith(responseTopic)).OrderBy(kvp => kvp.Key);
 
-                Console.WriteLine($"Got {responses.Count()} history messages");
-
                 List<HistoryChartData> chartData = new List<HistoryChartData>();
 
                 var startHour = int.Parse(DateTime.UtcNow.AddHours(hours * -1).ToString("yyyyMMddHH"));
 
-                Console.WriteLine($"Start Hour: {startHour}");
 
                 foreach (var response in responses)
                 {
 
                     var topicHour = int.Parse(response.Key.Split('/').Last());
 
-                    Console.WriteLine($"Topic Hour: {topicHour}");
-
                     if(topicHour < startHour)
                     {
-                        Console.WriteLine($"Skipping topic hour: {topicHour}");
                         continue;
                     }
 
