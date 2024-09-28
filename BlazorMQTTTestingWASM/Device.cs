@@ -23,7 +23,7 @@ namespace BlazorMQTTTestingWASM.Models
             this.basestationID = basestationID;
         }
 
-        public async Task<Dictionary<DateTime,ulong>>? getHistoricalData(int nodeID, int messageID, int hours)
+        public Dictionary<DateTime,ulong>? getHistoricalData(int nodeID, int messageID, int hours)
         {
 
             ulong lastMessageTime = getMessagePayload(nodeID, messageID).time.Value;
@@ -94,7 +94,7 @@ namespace BlazorMQTTTestingWASM.Models
 
             while (mqttService.AllMessages.ContainsKey(responseTopic) == false && (((DateTimeOffset)(System.DateTime.UtcNow)).ToUnixTimeSeconds() + timeOut) > ((DateTimeOffset)(System.DateTime.UtcNow)).ToUnixTimeSeconds())
             {
-                await Task.Delay(10);
+                Task.Delay(10);
             }
 
             Console.WriteLine("History received");

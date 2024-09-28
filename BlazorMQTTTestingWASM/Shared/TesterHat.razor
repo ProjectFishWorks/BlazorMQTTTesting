@@ -101,15 +101,10 @@
 
     private ApexChart<HistoryChartData> chart;
 
-    private async void onRefreshHistory()
+    private void onRefreshHistory()
     {
-        Console.WriteLine("Starting Task...");
-        var task = testerHat.PotentiometerHistoryChartData();
-        await task;
-        task.Wait();
-        chartData = task.Result;
-        await chart?.UpdateSeriesAsync(true);
-        Console.WriteLine("Task completed");
+        chartData = testerHat.PotentiometerHistoryChartData;
+        //chart?.UpdateSeriesAsync(true);
     }
 
     protected override async Task OnInitializedAsync(){
@@ -118,19 +113,15 @@
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-
-        Console.WriteLine("Starting Task...");
-        var task = testerHat.PotentiometerHistoryChartData();
-        await task;
-        chartData = task.Result;
-        Console.WriteLine("Task completed");
+        chartData = testerHat.PotentiometerHistoryChartData;
+        //chart?.UpdateSeriesAsync(true);
     }
 
     protected override void OnInitialized()
     {
         this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
         //chartData = testerHat.PotentiometerHistoryChartData;
-        
+
         options = new ApexChartOptions<HistoryChartData>
         {
             Chart = new Chart
@@ -158,11 +149,17 @@
         };
 
     }
-    
+
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
         base.StateHasChanged();
+        if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
+        {
+            Console.WriteLine("History Message Received");
+            chartData = testerHat.PotentiometerHistoryChartData;
+            chart.UpdateSeriesAsync(true);
+        }
     }
 
 
