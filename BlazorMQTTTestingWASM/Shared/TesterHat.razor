@@ -55,25 +55,26 @@
             <MudText Typo="Typo.h5">Button History</MudText>
             <MudIconButton @onclick="onRefreshHistory"
                            Icon="@Icons.Material.Filled.Refresh" />
+            <MudNumericField @bind-Value="testerHat.HistoryHours" Label="Hours" Min="1" Max="24" />
         </MudCardHeader>
         <MudCardContent>
             @if (testerHat.PotentiometerHistory != null)
             {
                 <ApexChart TItem="HistoryChartData"
-                Title="Pot History"
-                       Options="@options"
-                        @ref="chart">
-                <ApexPointSeries TItem="HistoryChartData"
-                                 Items="testerHat.PotentiometerHistory"
-                                 Name="Value"
-                                 SeriesType="SeriesType.Line"
-                                 XValue="@(e => e.time)"
-                                 YValue="@(e => e.data)"
+                    Title="Pot History"
+                    Options="@options"
+                    @ref="chart">
+                    <ApexPointSeries TItem="HistoryChartData"
+                                     Items="testerHat.PotentiometerHistory"
+                                     Name="Value"
+                                     SeriesType="SeriesType.Line"
+                                     XValue="@(e => e.time.ToString("HH:mm:ss"))"
+                                     YValue="@(e => e.data)"
                                  
-                                 OrderBy="e=>e.X" 
-                                 />
+                                     OrderBy="e=>e.X" 
+                                     />
 
-                </ApexChart>
+                    </ApexChart>
             }
             else
             {
@@ -99,11 +100,20 @@
 
     private ApexChart<HistoryChartData> chart;
 
+    private int historyHours = 1;
+
     TesterHatDevice testerHat;
 
     private void onRefreshHistory()
     {
-        testerHat.requestHistoricalData(nodeID, 45056, 1);
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
+    }
+
+    private void onHoursChanged(int value)
+    {
+        Console.WriteLine("Hours Changed: " + value);
+        historyHours = value;
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
     }
 
     protected override async Task OnInitializedAsync(){
@@ -112,7 +122,7 @@
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-        testerHat.requestHistoricalData(nodeID, 45056,1);
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
     }
 
     protected override void OnInitialized()
@@ -136,14 +146,13 @@
             TickAmount = 10,
             Title = new AxisTitle
             {
-                OffsetY = 5,
+                OffsetY = 0,
                 Text = "Time",
-                Style = new AxisTitleStyle { FontSize = "14px", Color = "lightgrey" }
             },
             AxisBorder = new AxisBorder
             {
                 Height = 2
-            }
+            },
         };
 
     }

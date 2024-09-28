@@ -19,6 +19,8 @@ namespace BlazorMQTTTestingWASM.Models
 
         private ApexChart<HistoryChartData> chart;
 
+        private int _historyHours = 1;
+
         public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID,ApexChart<HistoryChartData> chart) : base(mqttService, systemID, basestationID)
         {
             this.nodeID = nodeID;
@@ -30,7 +32,20 @@ namespace BlazorMQTTTestingWASM.Models
         {
             if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
             {
-                _potentiometerHistory = getHistoricalData(nodeID, 45056, 1);
+                _potentiometerHistory = getHistoricalData(nodeID, 45056, HistoryHours);
+            }
+        }
+
+        public int HistoryHours
+        {
+            get
+            {
+                return _historyHours;
+            }
+            set
+            {
+                _historyHours = value;
+                requestHistoricalData(nodeID, 45056, _historyHours);
             }
         }
 

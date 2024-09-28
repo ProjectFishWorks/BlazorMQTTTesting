@@ -27,8 +27,6 @@ namespace BlazorMQTTTestingWASM.Models
         {
             //ulong lastMessageTime = getMessagePayload(nodeID, messageID).time.Value;
 
-            string responseTopic = $"historyOut/{systemID}/{basestationID}/{nodeID}/{messageID}";
-
             //MQTTData? mQTTDataIn = getMessagePayload(nodeID, messageID);
 
             //if (mQTTDataIn != null)
@@ -82,7 +80,7 @@ namespace BlazorMQTTTestingWASM.Models
 
             mqttService.Publish(message);
 
-            mqttService.Subscribe(responseTopic);
+            mqttService.Subscribe($"historyOut/{systemID}/{basestationID}/{nodeID}/{messageID}/#");
         }
 
         public List<HistoryChartData>? getHistoricalData(int nodeID, int messageID, int hours)
@@ -90,35 +88,57 @@ namespace BlazorMQTTTestingWASM.Models
 
             string responseTopic = $"historyOut/{systemID}/{basestationID}/{nodeID}/{messageID}";
 
-            if(mqttService.AllMessages.ContainsKey(responseTopic))
+            if(mqttService.AllMessages.Keys.Where(k => k.StartsWith(responseTopic)).Count() > 0)
             {
                 Dictionary<DateTime, ulong> data = new Dictionary<DateTime, ulong>();
-                string response = mqttService.AllMessages[responseTopic];
-                MQTTHistoricalData? historicalData;
-                try
-                {
-                    historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response);
-                }
-                catch
-                {
-                    Console.WriteLine("JSON Parsing Error");
-                    return null;
-                }
 
-                if(historicalData == null)
-                {
-                    Console.WriteLine("Historical Data is null");
-                    return null;
-                }
+                var responses = mqttService.AllMessages.Where(kvp => kvp.Key.StartsWith(responseTopic)).OrderBy(kvp => kvp.Key);
+
+                Console.WriteLine($"Got {responses.Count()} history messages");
 
                 List<HistoryChartData> chartData = new List<HistoryChartData>();
 
-                foreach (var entry in historicalData.history)
+                var startHour = int.Parse(DateTime.UtcNow.AddHours(hours * -1).ToString("yyyyMMddHH"));
+
+                Console.WriteLine($"Start Hour: {startHour}");
+
+                foreach (var response in responses)
                 {
-                    HistoryChartData chartDataRow = new HistoryChartData();
-                    chartDataRow.data = entry.data;
-                    chartDataRow.time = DateTimeOffset.FromUnixTimeSeconds((long)entry.time).LocalDateTime;
-                    chartData.Add(chartDataRow);
+
+                    var topicHour = int.Parse(response.Key.Split('/').Last());
+
+                    Console.WriteLine($"Topic Hour: {topicHour}");
+
+                    if(topicHour < startHour)
+                    {
+                        Console.WriteLine($"Skipping topic hour: {topicHour}");
+                        continue;
+                    }
+
+                    MQTTHistoricalData? historicalData;
+                    try
+                    {
+                        historicalData = JsonSerializer.Deserialize<MQTTHistoricalData>(response.Value);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("JSON Parsing Error");
+                        return null;
+                    }
+
+                    if (historicalData == null)
+                    {
+                        Console.WriteLine("Historical Data is null");
+                        return null;
+                    }
+
+                    foreach (var entry in historicalData.history)
+                    {
+                        HistoryChartData chartDataRow = new HistoryChartData();
+                        chartDataRow.data = entry.data;
+                        chartDataRow.time = DateTimeOffset.FromUnixTimeSeconds((long)entry.time).LocalDateTime;
+                        chartData.Add(chartDataRow);
+                    }
                 }
 
                 return chartData;
