@@ -52,24 +52,45 @@
     </MudCardContent>
     <MudCard>
         <MudCardHeader>
-            <MudText Typo="Typo.h5">Button History</MudText>
+            <MudText Typo="Typo.h5">Potentiometer History</MudText>
+            <MudIconButton @onclick="onRefreshHistory"
+                           Icon="@Icons.Material.Filled.Refresh" />
         </MudCardHeader>
         <MudCardContent>
-            <ApexChart TItem="HistoryChartData"
-                       Title="Pot History"
-                       Options="@options">
+            <MudGrid>
+                <MudItem xs="2">
+                    <MudNumericField @bind-Value="testerHat.HistoryHours" Label="Hours" Min="1" Max="24" FullWidth="false" />
+                </MudItem>
+            </MudGrid>
 
-                <ApexPointSeries TItem="HistoryChartData"
-                                 Items="chartData"
-                                 Name="Value"
-                                 SeriesType="SeriesType.Line"
-                                 XValue="@(e => e.time)"
-                                 YValue="@(e => e.data)"
+            @if (testerHat.PotentiometerHistory != null)
+            {
+                <ApexChart TItem="HistoryChartData"
+                    Options="@options"
+                    XAxisType="XAxisType.Datetime"
+                    @ref="chart">
+                    <ApexPointSeries TItem="HistoryChartData"
+                                     Items="testerHat.PotentiometerHistory"
+                                     Name="Value"
+                                     SeriesType="SeriesType.Line"
+                                     XValue="@(e => e.time)"
+                                     YValue="@(e => e.data)"
                                  
-                                 OrderBy="e=>e.X" 
-                                 />
+                                     OrderBy="e=>e.X" 
+                                     />
 
-            </ApexChart>
+                    </ApexChart>
+            }
+            else
+            {
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">History Loading</MudText>
+                        <MudProgressLinear Size="MudBlazor.Size.Medium" Color=" MudBlazor.Color.Primary" Indeterminate="true" />
+                    </MudItem>
+                </MudGrid>
+
+            }
         </MudCardContent>
     </MudCard>
 </MudCard>
@@ -77,33 +98,49 @@
 
 
 @code {
-        [Parameter]
-        public int systemID { get; set; } = 0;
-        [Parameter]
-        public int basestationID { get; set; } = 0;
-        [Parameter]
-        public int nodeID { get; set; } = 0;
+    [Parameter]
+    public int systemID { get; set; } = 0;
+    [Parameter]
+    public int basestationID { get; set; } = 0;
+    [Parameter]
+    public int nodeID { get; set; } = 0;
 
-    public List<HistoryChartData> chartData = new List<HistoryChartData>();
-
-    TesterHatDevice testerHat;
+    public List<HistoryChartData> chartData = null;
 
     private ApexChartOptions<HistoryChartData> options;
 
+    private ApexChart<HistoryChartData> chart;
+
+    private int historyHours = 1;
+
+    TesterHatDevice testerHat;
+
+    private void onRefreshHistory()
+    {
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
+    }
+
+    private void onHoursChanged(int value)
+    {
+        Console.WriteLine("Hours Changed: " + value);
+        historyHours = value;
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
+    }
+
     protected override async Task OnInitializedAsync(){
-        
+
+        testerHat.requestHistoricalData(nodeID, 45056, testerHat.HistoryHours);
         if (MqttService.IsConnected())
         {
             MqttService.MessageReceived += MqttClient_MessageReceived;
         }
-        //chartData = testerHat.PotentiometerHistoryChartData;
     }
 
     protected override void OnInitialized()
     {
-        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
-        chartData = testerHat.PotentiometerHistoryChartData;
-        
+        this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID, this.chart);
+        //chartData = testerHat.PotentiometerHistoryChartData;
+
         options = new ApexChartOptions<HistoryChartData>
         {
             Chart = new Chart
@@ -115,27 +152,66 @@
                 }
             }
         };
+        options.Tooltip = new Tooltip
+        {
+            Enabled = true,
+            X = new TooltipX
+            {
+                Format = "dd MMM yyyy HH:mm"
+            }
+        };
         options.Xaxis = new XAxis
         {
-            TickAmount = 10,
+            TickAmount = 8,
             Title = new AxisTitle
             {
-                OffsetY = 5,
                 Text = "Time",
-                Style = new AxisTitleStyle { FontSize = "14px", Color = "lightgrey" }
             },
-            AxisBorder = new AxisBorder
+            Labels = new XAxisLabels
             {
-                Height = 2
+                DatetimeFormatter = new DatetimeFormatter
+                {
+                    Year = "yyyy",
+                    Month = "MMM 'yy",
+                    Day = "dd MMM",
+                    Hour = "HH:mm"
+                }
             }
+        };
+        options.Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Title = new AxisTitle
+                {
+                    Text = "Potentiometer Value",
+                },
+            }
+        };
+        options.Grid = new Grid
+        {
+            Show = true,
+            Xaxis = new GridXAxis
+            {
+               Lines = new Lines
+               {
+                   Show = true
+               }
+            },
+            StrokeDashArray = 4
         };
 
     }
-    
+
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
         base.StateHasChanged();
+        if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
+        {
+            Console.WriteLine("History Data Received");
+            chart.UpdateSeriesAsync(true);
+        }
     }
 
 

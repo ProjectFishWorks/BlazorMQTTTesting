@@ -1,4 +1,7 @@
-﻿using MudBlazor;
+﻿using ApexCharts;
+using MQTTnet;
+using MudBlazor;
+using static MudBlazor.CategoryTypes;
 
 namespace BlazorMQTTTestingWASM.Models
 {
@@ -12,9 +15,38 @@ namespace BlazorMQTTTestingWASM.Models
 
         private List<int> _LEDValues = new List<int> { 0,0,0,0 };
 
-        public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID) : base(mqttService, systemID, basestationID)
+        private List<HistoryChartData>? _potentiometerHistory;
+
+        private ApexChart<HistoryChartData> chart;
+
+        private int _historyHours = 1;
+
+        public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID,ApexChart<HistoryChartData> chart) : base(mqttService, systemID, basestationID)
         {
             this.nodeID = nodeID;
+            this.chart = chart;
+            mqttService.MessageReceived += mqttService_MessageReceived;
+        }
+
+        private void mqttService_MessageReceived(object? sender, MqttApplicationMessageReceivedEventArgs e)
+        {
+            if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
+            {
+                _potentiometerHistory = getHistoricalData(nodeID, 45056, HistoryHours);
+            }
+        }
+
+        public int HistoryHours
+        {
+            get
+            {
+                return _historyHours;
+            }
+            set
+            {
+                _historyHours = value;
+                requestHistoricalData(nodeID, 45056, _historyHours);
+            }
         }
 
         public int LED1
@@ -103,23 +135,11 @@ namespace BlazorMQTTTestingWASM.Models
             }
         }
 
-        public List<HistoryChartData> PotentiometerHistoryChartData
+        public List<HistoryChartData>? PotentiometerHistory
         {
             get
             {
-
-                Dictionary<DateTime, ulong>? data = getHistoricalData(nodeID, 45060, 1);
-                List<HistoryChartData> chartData = new List<HistoryChartData>();
-                
-                foreach(KeyValuePair<DateTime, ulong> entry in data)
-                {
-                    HistoryChartData chartDataRow = new HistoryChartData();
-                    chartDataRow.data = entry.Value;
-                    chartDataRow.time = entry.Key;
-                    chartData.Add(chartDataRow);
-                }
-
-                return chartData;
+                return _potentiometerHistory;
             }
         }
 
