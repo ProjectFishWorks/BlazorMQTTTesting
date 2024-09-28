@@ -38,7 +38,7 @@
             <MudItem xs="6">
                 <MudText Typo="Typo.h6"
                          Align="MudBlazor.Align.Left">
-                    Canopy Temperature: @tempHum.CanopyTemp °c
+                    Canopy Temperature: @tempHum.CanopyTemp °C
                 </MudText>
                 <MudToggleIconButton @bind-Toggled="_TurnCanopyTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
@@ -78,7 +78,7 @@
             <MudItem xs="6">
                 <MudText Typo="Typo.h6"
                          Align="MudBlazor.Align.Left">
-                    Tank Temperature: @tempHum.TankTemp %
+                    Tank Temperature: @tempHum.TankTemp °C
                 </MudText>
                 <MudToggleIconButton @bind-Toggled="_TurnTankTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
@@ -107,7 +107,7 @@
             <MudItem xs="6">
                 <MudText Typo="Typo.h6"
                          Align="MudBlazor.Align.Left">
-                    Sump Temperature: @tempHum.SumpTemp °c
+                    Sump Temperature: @tempHum.SumpTemp °C
                 </MudText>
                 <MudToggleIconButton @bind-Toggled="_TurnSumpTempAlarmOnOff"
                                      Icon="@Icons.Material.Filled.AlarmOff"
