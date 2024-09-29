@@ -12,7 +12,7 @@
 
 <MudCard Outlined=true>
     <MudCardContent>
-            <MudItem xs="6">
+            <MudItem xs="3">
                 @if (_EditIcon)
             {
                 <MudTextField @bind-Value="@Title" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
@@ -32,7 +32,7 @@
                     </MudText>
                 }
             </MudItem>
-            <MudItem xs="3">
+            <MudItem>
                 <MudText>
                     <MudToggleIconButton @bind-Toggled="_EditIcon"
                                          Icon="@Icons.Material.Filled.Edit"
@@ -40,14 +40,21 @@
                                          ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                          ToggledColor="MudBlazor.Color.Warning"
                                          title="@(_EditIcon ? "On" : "Off")" />
-                    Edit is   @(_EditIcon ? "On" : "Off")
                 </MudText>
-                <MudDivider>
-                    <MudItem>
-                        <MudChip T="string">Default</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Color.Default" OnClose="Closed">Closable</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Color.Warning" OnClose="Closed">Closable</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Color.Primary" OnClose="Closed" CloseIcon="@Icons.Material.Filled.AlarmAdd">Closable</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Color.Success" OnClose="Closed" CloseIcon="@Icons.Material.Filled.AlarmOn">Closable</MudChip>
+                    @code {
+        void Closed(MudChip<string> chip)
+        {
+            // react to chip closed
+        }
+                    }
 
                     <!-- </L>
+                        <MudChip T="string">Default</MudChip>
+                        <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
                     <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
                     <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
                         <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
@@ -65,8 +72,6 @@
                         <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
                         <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
                         <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
-                    </MudItem>
-                </MudDivider>
             </MudItem>
         <MudLink Href="/SetLightingSchedule">
             Lighting Settings
@@ -110,7 +115,6 @@
                                      ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                      ToggledColor="MudBlazor.Color.Warning"
                                      title="@(_EditIcon2 ? "On" : "Off")" />
-                Edit is   @(_EditIcon2 ? "On" : "Off")
             </MudText>
             <MudDivider>
                 <MudItem>
@@ -180,7 +184,6 @@
                                      ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                      ToggledColor="MudBlazor.Color.Warning"
                                      title="@(_EditIcon3 ? "On" : "Off")" />
-                Edit is   @(_EditIcon3 ? "On" : "Off")
             </MudText>
             <MudDivider>
                 <MudItem>
