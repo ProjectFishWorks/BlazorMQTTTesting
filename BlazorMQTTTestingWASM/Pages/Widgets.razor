@@ -6,141 +6,107 @@
 
 <PageTitle>Widgets</PageTitle>
 
-<h1>Widgets</h1>
-
+<h1>Dashboard</h1>
 
 
 <MudCard Outlined=true>
     <MudCardContent>
+        <MudGrid Justify="Justify.FlexStart">
             <MudItem xs="6">
-                @if (_EditIcon)
-            {
-                <MudTextField @bind-Value="@Title" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
-                    <!--
-                    <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
-                    <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
-                   
-
-                    
-                    -->
-
-                }
-                @if (!_EditIcon)
+                @if (_EditIcon1)
                 {
-                    <MudText Typo="Typo.h6">
-                        @Title
+                    <MudTextField @bind-Value="@Title1" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                }
+                @if (!_EditIcon1)
+                {
+                    <MudText Typo="Typo.h5">
+                        @Title1
                     </MudText>
                 }
             </MudItem>
-            <MudItem xs="3">
+            <MudItem xs="6">
                 <MudText>
-                    <MudToggleIconButton @bind-Toggled="_EditIcon"
+                    <MudToggleIconButton @bind-Toggled="_EditIcon1"
                                          Icon="@Icons.Material.Filled.Edit"
                                          Color="MudBlazor.Color.Primary"
                                          ToggledIcon="@Icons.Material.Filled.CheckCircle"
                                          ToggledColor="MudBlazor.Color.Warning"
-                                         title="@(_EditIcon ? "On" : "Off")" />
-                    Edit is   @(_EditIcon ? "On" : "Off")
+                                         title="@(_EditIcon1 ? "On" : "Off")" />
                 </MudText>
-                <MudDivider>
-                    <MudItem>
-                        <MudChip T="string">Default</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
-
-                    <!-- </L>
-                    <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>
-                        <MudDivider />
-                        <MudChip T="string" Disabled="true">Default</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Primary">Primary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
-                    </MudItem>
-                </MudDivider>
             </MudItem>
-        <MudLink Href="/SetLightingSchedule">
-            Lighting Settings
-        </MudLink>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">
+                    Blue Brightness
+                </MudText>
+                <MudProgressLinear Value="25" Color="MudBlazor.Color.Info"/>
+            </MudItem>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">
+                    White Brightness
+                </MudText>
+                <MudProgressLinear Value="75" Color="MudBlazor.Color.Warning"/>
+            </MudItem>
+
+        </MudGrid>
+        <!--<MudLink Href="/TempHum">
+            Temperature and Humidity
+        </MudLink>-->
     </MudCardContent>
 </MudCard>
 
 @code {
 
-    public bool _EditIcon { get; set; }
+    public bool _EditIcon1 { get; set; }
 
-    public string Title { get; set; } = "Edit Title";
+    public string Title1 { get; set; } = "Edit Title";
+
 }
+
 
 <MudCard Outlined=true>
     <MudCardContent>
-        <MudItem xs="6">
-            @if (_EditIcon2)
-            {
-                <MudTextField @bind-Value="@Title2" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
-                <!--
-                <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
-                <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
-
-
-
-                -->
-            }
-            @if (!_EditIcon2)
-            {
-                <MudText Typo="Typo.h6">
-                    @Title2
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem xs="6">
+                @if (_EditIcon2)
+                {
+                    <MudTextField @bind-Value="@Title2" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                }
+                @if (!_EditIcon2)
+                {
+                    <MudText Typo="Typo.h5">
+                        @Title2
+                    </MudText>
+                }
+            </MudItem>
+            <MudItem xs="6">
+                <MudText>
+                    <MudToggleIconButton @bind-Toggled="_EditIcon2"
+                                         Icon="@Icons.Material.Filled.Edit"
+                                         Color="MudBlazor.Color.Primary"
+                                         ToggledIcon="@Icons.Material.Filled.CheckCircle"
+                                         ToggledColor="MudBlazor.Color.Warning"
+                                         title="@(_EditIcon2 ? "On" : "Off")" />
                 </MudText>
-            }
-        </MudItem>
-        <MudItem xs="3">
-            <MudText>
-                <MudToggleIconButton @bind-Toggled="_EditIcon2"
-                                     Icon="@Icons.Material.Filled.Edit"
-                                     Color="MudBlazor.Color.Primary"
-                                     ToggledIcon="@Icons.Material.Filled.CheckCircle"
-                                     ToggledColor="MudBlazor.Color.Warning"
-                                     title="@(_EditIcon2 ? "On" : "Off")" />
-                Edit is   @(_EditIcon2 ? "On" : "Off")
-            </MudText>
-            <MudDivider>
-                <MudItem>
-                    <MudChip T="string">Default</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
-
-                    <!-- </L>
-                    <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>
-                        <MudDivider />
-                        <MudChip T="string" Disabled="true">Default</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Primary">Primary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
-                </MudItem>
-            </MudDivider>
-        </MudItem>
-        <MudLink Href="/TempHum">
+            </MudItem>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">
+                    Tank Temperature: 22.1 °C
+                </MudText>
+            </MudItem>
+            <MudItem xs="6">
+                <MudText Typo="Typo.h6">
+                    Sump Temperature: 23.5 °C
+                </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                    <MudChip T="string" Color="MudBlazor.Color.Success">Temp. Good</MudChip>
+                    <MudChip T="string" Color="MudBlazor.Color.Warning">Humdity. Warn</MudChip>
+            </MudItem>
+            
+        </MudGrid>
+        <!--<MudLink Href="/TempHum">
             Temperature and Humidity
-        </MudLink>
+        </MudLink>-->
     </MudCardContent>
 </MudCard>
 
@@ -151,66 +117,46 @@
     public string Title2 { get; set; } = "Edit Title";
 
 }
+
+
 <MudCard Outlined=true>
     <MudCardContent>
-        <MudItem xs="6">
-            @if (_EditIcon3)
-            {
-                <MudTextField @bind-Value="@Title3" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
-                <!--
-                <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
-                <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
-
-
-
-                -->
-            }
-            @if (!_EditIcon3)
-            {
-                <MudText Typo="Typo.h6">
-                    @Title3
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem xs="6">
+                @if (_EditIcon3)
+                {
+                    <MudTextField @bind-Value="@Title3" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                }
+                @if (!_EditIcon3)
+                {
+                    <MudText Typo="Typo.h5">
+                        @Title3
+                    </MudText>
+                }
+            </MudItem>
+            <MudItem xs="6">
+                <MudText>
+                    <MudToggleIconButton @bind-Toggled="_EditIcon3"
+                                         Icon="@Icons.Material.Filled.Edit"
+                                         Color="MudBlazor.Color.Primary"
+                                         ToggledIcon="@Icons.Material.Filled.CheckCircle"
+                                         ToggledColor="MudBlazor.Color.Warning"
+                                         title="@(_EditIcon3 ? "On" : "Off")" />
                 </MudText>
-            }
-        </MudItem>
-        <MudItem xs="3">
-            <MudText>
-                <MudToggleIconButton @bind-Toggled="_EditIcon3"
-                                     Icon="@Icons.Material.Filled.Edit"
-                                     Color="MudBlazor.Color.Primary"
-                                     ToggledIcon="@Icons.Material.Filled.CheckCircle"
-                                     ToggledColor="MudBlazor.Color.Warning"
-                                     title="@(_EditIcon3 ? "On" : "Off")" />
-                Edit is   @(_EditIcon3 ? "On" : "Off")
-            </MudText>
-            <MudDivider>
-                <MudItem>
-                    <MudChip T="string">Default</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
+            </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6">
+                    Tank PH: 7.5
+                </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudChip T="string" Color="MudBlazor.Color.Success">PH Good</MudChip>
+            </MudItem>
 
-                    <!-- </L>
-                    <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>
-                        <MudDivider />
-                        <MudChip T="string" Disabled="true">Default</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Primary">Primary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
-                </MudItem>
-            </MudDivider>
-        </MudItem>
-        <MudLink Href="/SetLightingSchedule">
-            Water Quality
-        </MudLink>
+        </MudGrid>
+        <!--<MudLink Href="/TempHum">
+            Temperature and Humidity
+        </MudLink>-->
     </MudCardContent>
 </MudCard>
 
@@ -220,68 +166,43 @@
 
     public string Title3 { get; set; } = "Edit Title";
 
-    public string TextValue3 { get; set; } = "Edit Text";
 }
+
 
 <MudCard Outlined=true>
     <MudCardContent>
-        <MudItem xs="6">
-            @if (_EditIcon4)
-            {
-                <MudTextField @bind-Value="@Title4" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
-                <!--
-                <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
-                <MudTextField @bind-Value="TextValue" Label="Filled" Variant="Variant.Filled"></MudTextField>
-
-
-
-                -->
-            }
-            @if (!_EditIcon4)
-            {
-                <MudText Typo="Typo.h6">
-                    @Title4
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem xs="6">
+                @if (_EditIcon4)
+                {
+                    <MudTextField @bind-Value="@Title4" Label="Outlined" Variant="Variant.Outlined"></MudTextField>
+                }
+                @if (!_EditIcon4)
+                {
+                    <MudText Typo="Typo.h5">
+                        @Title4
+                    </MudText>
+                }
+            </MudItem>
+            <MudItem xs="6">
+                <MudText>
+                    <MudToggleIconButton @bind-Toggled="_EditIcon4"
+                                         Icon="@Icons.Material.Filled.Edit"
+                                         Color="MudBlazor.Color.Primary"
+                                         ToggledIcon="@Icons.Material.Filled.CheckCircle"
+                                         ToggledColor="MudBlazor.Color.Warning"
+                                         title="@(_EditIcon4 ? "On" : "Off")" />
                 </MudText>
-            }
-        </MudItem>
-        <MudItem xs="3">
-            <MudText>
-                <MudToggleIconButton @bind-Toggled="_EditIcon4"
-                                     Icon="@Icons.Material.Filled.Edit"
-                                     Color="MudBlazor.Color.Primary"
-                                     ToggledIcon="@Icons.Material.Filled.CheckCircle"
-                                     ToggledColor="MudBlazor.Color.Warning"
-                                     title="@(_EditIcon4 ? "On" : "Off")" />
-            </MudText>
-            <MudDivider>
-                <MudItem>
-                    <MudChip T="string">Default</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Color.Primary">Primary</MudChip>
+            </MudItem>
+            <MudItem xs="12">
+                <MudChip T="string" Color="MudBlazor.Color.Success">No Leaks</MudChip>
+                <MudChip T="string" Color="MudBlazor.Color.Success">Water Level Good</MudChip>
+            </MudItem>
 
-                    <!-- </L>
-                    <MudChip T="string" Color="MudBlazor.Default" OnClose="Closed">Closable</MudChip>
-                    <MudChip T="string" Color="MudBlazor.Error" OnClose="Closed">Closable</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>
-                        <MudDivider />
-                        <MudChip T="string" Disabled="true">Default</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Primary">Primary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Secondary">Secondary</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Info">Info</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Success">Success</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Warning">Warning</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Error">Error</MudChip>
-                        <MudChip T="string" Disabled="true" MudBlazor.Color="MudBlazor.Color.Dark">Dark</MudChip>-->
-                </MudItem>
-            </MudDivider>
-        </MudItem>
-        <MudLink Href="/SetLightingSchedule">
-            Leak Detection
-        </MudLink>
+        </MudGrid>
+        <!--<MudLink Href="/TempHum">
+            Temperature and Humidity
+        </MudLink>-->
     </MudCardContent>
 </MudCard>
 
