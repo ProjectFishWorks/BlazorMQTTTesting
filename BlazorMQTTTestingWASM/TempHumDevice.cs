@@ -32,7 +32,7 @@
         {
             get
             {
-                _CanopyTemp = getMessagePayload(nodeID, 2560).dataFloat;
+                _CanopyTemp = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2560).dataFloat,2);
                 return _CanopyTemp;
             }
         }

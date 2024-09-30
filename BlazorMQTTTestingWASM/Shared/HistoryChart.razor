@@ -1,0 +1,213 @@
+﻿@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">@ChartTitle</MudText>
+        <MudIconButton @onclick="onRefreshHistory"
+                       Icon="@Icons.Material.Filled.Refresh" />
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="2">
+                <MudNumericField @bind-Value="_historyHours" @bind-Value:after="onHoursUpdate" Label="Hours" Min="1" Max="24" FullWidth="false" />
+            </MudItem>
+        </MudGrid>
+
+        @if (HistoryData != null)
+        {
+            <ApexChart TItem="HistoryDataRow"
+                       Options="@_options"
+                       XAxisType="XAxisType.Datetime"
+                       @ref="_chart">
+                <ApexPointSeries TItem="HistoryDataRow"
+                                 Items="_historyData"
+                                 Name="Value"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.time)"
+                                 YValue="@(e => e.data)"
+                                 OrderBy="e=>e.X" />
+
+            </ApexChart>
+        }
+        else
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">History Loading</MudText>
+                    <MudProgressLinear Size="MudBlazor.Size.Medium" Color=" MudBlazor.Color.Primary" Indeterminate="true" />
+                </MudItem>
+            </MudGrid>
+
+        }
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    //Data for the chart
+    [Parameter]
+    public List<HistoryDataRow>? HistoryData
+    {
+        get => _historyData;
+
+        set
+        {
+            _historyData = value;
+            if (_chart != null)
+            {
+                _chart.UpdateSeriesAsync(true);
+            }
+        }
+    }
+
+    //Chart Title
+    [Parameter]
+    public string ChartTitle { get; set; } = "Edit Title";
+
+    //Y Axis Title
+    [Parameter]
+    public string YAxisTitle { get; set; } = "Y Axis";
+
+    //X Axis Title
+    [Parameter]
+    public string XAxisTitle { get; set; } = "X Axis";
+
+    //Node ID to get the data from
+    [Parameter]
+    public int NodeID { get; set; } = 0;
+
+    //Message ID to get the data from
+    [Parameter]
+    public int MessageID { get; set; } = 0;
+
+    //Event Handler for requesting history data
+    [Parameter]
+    public EventHandler<HistoryChartDataEventArgs>? RequestData { get; set; }
+
+    //Event Handler for updating history data
+    [Parameter]
+    public EventHandler<HistoryChartDataEventArgs>? UpdateData { get; set; }
+
+    private List<HistoryDataRow>? _historyData;
+
+    //Reference to the chart component
+    private ApexChart<HistoryDataRow>? _chart;
+
+    //Options for the chart
+    private ApexChartOptions<HistoryDataRow>? _options;
+
+    //Number of hours to get the history data for
+    private int _historyHours = 1;
+
+    private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
+    {
+        if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
+        {   
+            //If we get incoming history data, update the history data
+            if(UpdateData != null)
+            {
+                UpdateData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+            }
+        }
+    }
+
+    //Refresh button click event
+    private void onRefreshHistory(MouseEventArgs e)
+    {
+        Console.WriteLine("Refresh History");
+        if(RequestData != null)
+        {
+            //Request new history data
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+    }
+
+    //When the number of history hours is updated
+    private void onHoursUpdate()
+    {
+        Console.WriteLine("Hours Updated");
+        if(RequestData != null)
+        {
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (MqttService.IsConnected())
+        {
+            MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+
+        if (RequestData != null)
+        {
+            //Request new history data
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+
+
+        //Configure the chart options
+        _options = new ApexChartOptions<HistoryDataRow>
+            {
+                Chart = new Chart
+                {
+                    Type = ApexCharts.ChartType.Line,
+                    Toolbar = new Toolbar
+                    {
+                        Show = true
+                    }
+                }
+            };
+        _options.Tooltip = new Tooltip
+            {
+                Enabled = true,
+                X = new TooltipX
+                {
+                    Format = "dd MMM yyyy HH:mm"
+                }
+            };
+        _options.Xaxis = new XAxis
+            {
+                TickAmount = 8,
+                Title = new AxisTitle
+                {
+                    Text = XAxisTitle,
+                },
+                Labels = new XAxisLabels
+                {
+                    DatetimeFormatter = new DatetimeFormatter
+                    {
+                        Year = "yyyy",
+                        Month = "MMM 'yy",
+                        Day = "dd MMM",
+                        Hour = "HH:mm"
+                    },
+                    DatetimeUTC = false //Display in local time
+                }
+            };
+        _options.Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Title = new AxisTitle
+                {
+                    Text = YAxisTitle,
+                },
+            }
+        };
+        _options.Grid = new Grid
+            {
+                Show = true,
+                Xaxis = new GridXAxis
+                {
+                    Lines = new Lines
+                    {
+                        Show = true
+                    }
+                },
+                StrokeDashArray = 4
+            };
+
+    }
+}

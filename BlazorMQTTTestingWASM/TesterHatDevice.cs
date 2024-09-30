@@ -15,37 +15,26 @@ namespace BlazorMQTTTestingWASM.Models
 
         private List<int> _LEDValues = new List<int> { 0,0,0,0 };
 
-        private List<HistoryChartData>? _potentiometerHistory;
+        private List<HistoryDataRow>? _potentiometerHistory;
 
-        private ApexChart<HistoryChartData> chart;
+        private ApexChart<HistoryDataRow> chart;
 
         private int _historyHours = 1;
 
-        public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID,ApexChart<HistoryChartData> chart) : base(mqttService, systemID, basestationID)
+        public TesterHatDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID) : base(mqttService, systemID, basestationID)
         {
             this.nodeID = nodeID;
-            this.chart = chart;
-            mqttService.MessageReceived += mqttService_MessageReceived;
         }
 
-        private void mqttService_MessageReceived(object? sender, MqttApplicationMessageReceivedEventArgs e)
+        public List<HistoryDataRow>? PotentiometerHistory
         {
-            if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
-            {
-                _potentiometerHistory = getHistoricalData(nodeID, 45056, HistoryHours);
-            }
-        }
-
-        public int HistoryHours
-        {
-            get
-            {
-                return _historyHours;
-            }
             set
             {
-                _historyHours = value;
-                requestHistoricalData(nodeID, 45056, _historyHours);
+                _potentiometerHistory = value;
+            }
+            get
+            {
+                return _potentiometerHistory;
             }
         }
 
@@ -132,14 +121,6 @@ namespace BlazorMQTTTestingWASM.Models
                     }
                 }
                 return values;
-            }
-        }
-
-        public List<HistoryChartData>? PotentiometerHistory
-        {
-            get
-            {
-                return _potentiometerHistory;
             }
         }
 
