@@ -2,7 +2,7 @@
 
 namespace BlazorMQTTTestingWASM
 {
-    public class HistoryChartData
+    public class HistoryDataRow
     {
         public ulong data;
 

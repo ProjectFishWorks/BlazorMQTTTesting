@@ -1,0 +1,194 @@
+﻿@using MQTTnet
+@inject MQTTnet.ClientLib.MqttService MqttService
+
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Potentiometer History</MudText>
+        <MudIconButton @onclick="onRefreshHistory"
+                       Icon="@Icons.Material.Filled.Refresh" />
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="2">
+                <MudNumericField @bind-Value="_historyHours" @bind-Value:after="onHoursUpdate" Label="Hours" Min="1" Max="24" FullWidth="false" />
+            </MudItem>
+        </MudGrid>
+
+        @if (HistoryData != null)
+        {
+            <ApexChart TItem="HistoryDataRow"
+                       Options="@_options"
+                       XAxisType="XAxisType.Datetime"
+                       @ref="_chart">
+                <ApexPointSeries TItem="HistoryDataRow"
+                                 Items="_historyData"
+                                 Name="Value"
+                                 SeriesType="SeriesType.Line"
+                                 XValue="@(e => e.time)"
+                                 YValue="@(e => e.data)"
+                                 OrderBy="e=>e.X" />
+
+            </ApexChart>
+        }
+        else
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h4" Align="MudBlazor.Align.Center">History Loading</MudText>
+                    <MudProgressLinear Size="MudBlazor.Size.Medium" Color=" MudBlazor.Color.Primary" Indeterminate="true" />
+                </MudItem>
+            </MudGrid>
+
+        }
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public List<HistoryDataRow>? HistoryData
+    {
+        get => _historyData;
+
+        set
+        {
+            _historyData = value;
+            if (_chart != null)
+            {
+                _chart.UpdateSeriesAsync(true);
+            }
+        }
+    }
+
+    [Parameter]
+    public string ChartTitle { get; set; } = "Edit Title";
+
+    [Parameter]
+    public string YAxisTitle { get; set; } = "Y Axis";
+
+    [Parameter]
+    public string XAxisTitle { get; set; } = "X Axis";
+
+    [Parameter]
+    public int NodeID { get; set; } = 0;
+
+    [Parameter]
+    public int MessageID { get; set; } = 0;
+
+    [Parameter]
+    public EventHandler<HistoryChartDataEventArgs>? RequestData { get; set; }
+
+    [Parameter]
+    public EventHandler<HistoryChartDataEventArgs>? UpdateData { get; set; }
+
+    private List<HistoryDataRow>? _historyData;
+
+    private ApexChart<HistoryDataRow>? _chart;
+
+    private ApexChartOptions<HistoryDataRow>? _options;
+
+    private int _historyHours = 1;
+
+    private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
+    {
+        if (e.ApplicationMessage.Topic.StartsWith("historyOut"))
+        {
+            if(UpdateData != null)
+            {
+                UpdateData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+            }
+        }
+    }
+    private void onRefreshHistory(MouseEventArgs e)
+    {
+        Console.WriteLine("Refresh History");
+        if(RequestData != null)
+        {
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+    }
+
+    private void onHoursUpdate()
+    {
+        Console.WriteLine("Hours Updated");
+        if(RequestData != null)
+        {
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (MqttService.IsConnected())
+        {
+            MqttService.MessageReceived += MqttClient_MessageReceived;
+        }
+
+        if (RequestData != null)
+        {
+            RequestData.Invoke(this, new HistoryChartDataEventArgs(NodeID, MessageID, _historyHours));
+        }
+
+
+        _options = new ApexChartOptions<HistoryDataRow>
+            {
+                Chart = new Chart
+                {
+                    Type = ApexCharts.ChartType.Line,
+                    Toolbar = new Toolbar
+                    {
+                        Show = true
+                    }
+                }
+            };
+        _options.Tooltip = new Tooltip
+            {
+                Enabled = true,
+                X = new TooltipX
+                {
+                    Format = "dd MMM yyyy HH:mm"
+                }
+            };
+        _options.Xaxis = new XAxis
+            {
+                TickAmount = 8,
+                Title = new AxisTitle
+                {
+                    Text = "Time",
+                },
+                Labels = new XAxisLabels
+                {
+                    DatetimeFormatter = new DatetimeFormatter
+                    {
+                        Year = "yyyy",
+                        Month = "MMM 'yy",
+                        Day = "dd MMM",
+                        Hour = "HH:mm"
+                    }
+                }
+            };
+        _options.Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Title = new AxisTitle
+                {
+                    Text = "Potentiometer Value",
+                },
+            }
+        };
+        _options.Grid = new Grid
+            {
+                Show = true,
+                Xaxis = new GridXAxis
+                {
+                    Lines = new Lines
+                    {
+                        Show = true
+                    }
+                },
+                StrokeDashArray = 4
+            };
+
+    }
+}
