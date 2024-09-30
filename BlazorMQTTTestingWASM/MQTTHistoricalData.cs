@@ -1,5 +1,7 @@
 ﻿namespace BlazorMQTTTestingWASM
 {
+
+    //Data structure for deserializeing historical data messages 
     public class MQTTHistoricalData
     {
 

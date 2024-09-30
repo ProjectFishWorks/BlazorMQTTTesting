@@ -71,19 +71,25 @@
 
     TesterHatDevice testerHat;
 
+    //Event handlers for the HistoryChart component
+
+    //Request historical data
     private void historyChartRequestData(object sender, HistoryChartDataEventArgs e)
     {
         testerHat.requestHistoricalData(e.NodeID, e.MessageID, e.Hours);
     }
 
+    //Update the historical data and chart
     private void historyChartUpdateData(object sender, HistoryChartDataEventArgs e)
     {
-        testerHat.PotentiometerHistory = testerHat.getHistoricalData(e.NodeID, e.MessageID,e.Hours);
-        base.StateHasChanged();
+        testerHat.PotentiometerHistory = testerHat.updateHistoricalData(e.NodeID, e.MessageID,e.Hours);
+        base.StateHasChanged();//force a re-render - !!MUST BE CALLED OR EVERYTHING BREAKS!!
     }
 
     protected override async Task OnInitializedAsync()
     {
+
+        //Create the TesterHatDevice data model
         this.testerHat = new TesterHatDevice(MqttService, this.systemID, this.basestationID, this.nodeID);
 
         if (MqttService.IsConnected())
@@ -94,6 +100,7 @@
 
     private void MqttClient_MessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
+        //Refresh the UI when a message is received
         base.StateHasChanged();
     }
 
