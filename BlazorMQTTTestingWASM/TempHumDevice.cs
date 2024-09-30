@@ -35,11 +35,6 @@
                 _CanopyTemp = getMessagePayload(nodeID, 2560).dataFloat;
                 return _CanopyTemp;
             }
-            set
-            {
-                _CanopyTemp = value;
-                sendMessageData(nodeID, 2560, (ulong)_CanopyTemp);
-            }
         }
 
         public bool CanopyTempAlarmOnOff
@@ -88,11 +83,6 @@
             {
                 _CanopyHum = getMessagePayload(nodeID, 2564).dataFloat;
                 return _CanopyHum;
-            }
-            set
-            {
-                _CanopyHum = value;
-                sendMessageData(nodeID, 2564, (ulong)_CanopyHum);
             }
         }
 
