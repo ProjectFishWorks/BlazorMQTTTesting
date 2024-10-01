@@ -43,17 +43,18 @@
         {
             get
             {
-           
-                return _CanopyTempAlarmOnOff;
                 Console.WriteLine("CanopyTempAlarmOnOff");
                 Console.WriteLine(_CanopyTempAlarmOnOff);
+                return _CanopyTempAlarmOnOff;
+
             }
             set
             {
                 _CanopyTempAlarmOnOff = value;
-                sendMessageData(nodeID, 2561, (ulong)(_CanopyTempAlarmOnOff ? 1 : 0));
                 Console.WriteLine("CanopyTempAlarmOnOff");
                 Console.WriteLine(_CanopyTempAlarmOnOff);
+                sendMessageData(nodeID, 2561, (ulong)(_CanopyTempAlarmOnOff ? 1 : 0));
+
             }
         }
 
