@@ -20,6 +20,8 @@
         private float? _SumpTempAlarmLow = 0;
         private float? _SumpTempAlarmHigh = 0;
 
+        public int decimalCount = 1;                // decimal places for temperature and humidities displayed by app
+
 
         public TempHumDevice(MQTTnet.ClientLib.MqttService mqttService, int systemID,int basestationID,int nodeID) : base(mqttService, systemID, basestationID)
         {
@@ -32,7 +34,7 @@
         {
             get
             {
-                _CanopyTemp = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2560).dataFloat,2);
+                _CanopyTemp = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2560).dataFloat, decimalCount);
                 return _CanopyTemp;
             }
         }
@@ -43,11 +45,15 @@
             {
            
                 return _CanopyTempAlarmOnOff;
+                Console.WriteLine("CanopyTempAlarmOnOff");
+                Console.WriteLine(_CanopyTempAlarmOnOff);
             }
             set
             {
                 _CanopyTempAlarmOnOff = value;
                 sendMessageData(nodeID, 2561, (ulong)(_CanopyTempAlarmOnOff ? 1 : 0));
+                Console.WriteLine("CanopyTempAlarmOnOff");
+                Console.WriteLine(_CanopyTempAlarmOnOff);
             }
         }
 
@@ -56,11 +62,15 @@
             get
             {
                 return _CanopyTempAlarmLow;
+                Console.WriteLine("CanopyTempAlarmLow");
+                Console.WriteLine(_CanopyTempAlarmLow);
             }
             set
             {
                 _CanopyTempAlarmLow = value;
                 sendMessageData(nodeID, 2562, (ulong)_CanopyTempAlarmLow);
+                Console.WriteLine("CanopyTempAlarmLow");
+                Console.WriteLine(_CanopyTempAlarmLow);
             }
         }
 
@@ -81,7 +91,7 @@
         {
             get
             {
-                _CanopyHum = getMessagePayload(nodeID, 2564).dataFloat;
+                _CanopyHum = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2564).dataFloat, decimalCount);
                 return _CanopyHum;
             }
         }
@@ -129,7 +139,7 @@
         {
             get
             {
-                _TankTemp = getMessagePayload(nodeID, 2568).dataFloat;
+                _TankTemp = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2568).dataFloat, decimalCount);
                 return _TankTemp;
             }
             set
@@ -183,7 +193,7 @@
         {
             get
             {
-                _SumpTemp = getMessagePayload(nodeID, 2572).dataFloat;
+                _SumpTemp = (float?)Math.Round((decimal)getMessagePayload(nodeID, 2572).dataFloat, decimalCount);
                 return _SumpTemp;
             }
             set

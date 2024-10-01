@@ -53,12 +53,12 @@
                     <MudNumericField @bind-Value="tempHum.CanopyTempAlarmLow"
                                      Label="Low Temperature Alarm"
                                      Variant="Variant.Outlined"
-                                     Min="0" Max="100" />
+                                     Min="0" Max="35" />
 
                     <MudNumericField @bind-Value="tempHum.CanopyTempAlarmHigh"
                                      Label="High Temperature Alarm"
                                      Variant="Variant.Outlined"
-                                     Min="15" Max="30" />
+                                     Min="0" Max="35" />
                 }
             </MudItem>
         </MudGrid>
@@ -92,14 +92,14 @@
                     @if (_TurnTankTempAlarmOnOff)
                     {
                         <MudNumericField @bind-Value="tempHum.TankTempAlarmLow"
-                                         Label="Low Humidity Alarm"
+                                         Label="Low Temperature Alarm"
                                          Variant="Variant.Outlined"
-                                         Min="15" Max="30" />
+                                         Min="0" Max="35" />
 
                         <MudNumericField @bind-Value="tempHum.TankTempAlarmHigh"
-                                         Label="High Humidity Alarm"
+                                         Label="High Temperature Alarm"
                                          Variant="Variant.Outlined"
-                                         Min="15" Max="30" />
+                                         Min="0" Max="35" />
                     }
                 </span>
             </MudItem>
@@ -122,12 +122,12 @@
                     <MudNumericField @bind-Value="tempHum.SumpTempAlarmLow"
                                      Label="Low Temperature Alarm"
                                      Variant="Variant.Outlined"
-                                     Min="0" Max="100" />
+                                     Min="0" Max="35" />
 
                     <MudNumericField @bind-Value="tempHum.SumpTempAlarmHigh"
                                      Label="High Temperature Alarm"
                                      Variant="Variant.Outlined"
-                                     Min="15" Max="30" />
+                                     Min="0" Max="35" />
                 }
             </MudItem>
         </MudGrid>
